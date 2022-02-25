@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodingPhase JS Workshop &ndash; 2-17-22</title>
+    <style>
+        :root {
+            --bg: #EFEFEF;
+            --primary: #2196F3;
+            --primary-hover: #1981d6;
+        }
+        * {
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        body {
+            padding: 1rem;
+            overflow: hidden;
+            overflow-y: auto;
+        }
+        button {
+            appearance: none;
+            -webkit-appearance: none;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            background-color: var(--primary);
+            color: rgba(255,255,255,0.86);
+        }
+        input {
+            width: 100%;
+            padding: 1rem 0.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid #000000;
+        }
+        .clear {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: var(--primary);
+            padding: 0.5rem 0.5rem 0.35rem;
+            border-radius: 0.5rem;
+            letter-spacing: 0.1rem;
+            color: rgba(255,255,255,0.86);
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: 600;
+            line-height: 1;
+            -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+        .console {
+            position: relative;
+            width: 100%;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            background: var(--bg);
+        }
+        .input {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 1rem;
+        }
+
+        .input label {
+            order: -1;
+            margin: 0 0 0.25rem 0.5rem;
+            flex: 0;
+            align-self: flex-start;
+        }
+        .modal {
+            width: 100%;
+            padding: 1rem;
+            display: block;
+            margin: 3rem auto;
+            background-color: var(--bg);
+            border-radius: 1rem;
+            -webkit-box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+            cursor: pointer;
+        }
+
+        .clear:hover {
+            background-color: var(--primary-hover);
+        }
+    </style>
+</head>
+<body>
+    <h1>What's Up CodingPhase</h1>
+    <!-- <form method="POST" action="" onnotanevent="return inlineSubmitForm()">
+        <div class="input">
+            <input type="text" name="username" id="username" placeholder="Enter your username"/>
+            <label for="username">Username</label>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+    <div class="modal">
+        <button class="btn">
+            <span class="btn-text">Button&nbsp;<span class="btn-text-2">Here</span>
+        </button>
+    </div>
+    <div class="console">
+        <div class="clear">Clear</div>
+        <div class="log"></div>
+    </div> -->
+    <script>
+        // const btn = document.querySelector('.btn');
+        // const btnText = document.querySelector('.btn-text');
+        // const btnText2 = document.querySelector('.btn-text-2');
+        const clearBtn = document.querySelector('.clear');
+        const consoleContainer = document.querySelector('.console .log');
+        const form = document.querySelector('form');
+        const input = document.querySelector('input');
+        // const modal = document.querySelector('.modal');
+
+        const submitForm = (event) => {
+            event.preventDefault()
+            alert("Prevented Form Submission");
+            console.log("🚀 ~ file: index.html ~ line 117 ~ submitForm ~ e", event.currentTarget)
+        }
+        const inlineSubmitForm = (event) => {
+            console.log("🚀 ~ file: index.html ~ line 117 ~ submitForm ~ e", event)
+            return false
+        }
+
+        // const mouseover = (event) => {
+        //     const message = "Modal Mouseover";
+        //     console.log(`${message} - Event`, event)
+        //     console.log(`${message} - Target`, event.target)
+        //     console.log(`${message} - Current Target`, event.currentTarget)
+        //     var p = document.createElement('p');
+        //     p.innerText = message;
+        //     consoleContainer.append(p);
+        // }
+        // const mouseout = (event) => {
+        //     const message = "Modal Mouseout";
+        //     console.log(`${message} - Event`, event)
+        //     console.log(`${message} - Target`, event.target)
+        //     console.log(`${message} - Current Target`, event.currentTarget)
+        //     var p = document.createElement('p');
+        //     p.innerText = message;
+        //     consoleContainer.append(p);
+        // }
+
+
+
+        // ADD EVENT LISTENERS BELOW
+        window.addEventListener('load', (event) => {
+            alert("Window loaded!", event)
+        })
+        window.addEventListener('resize', (event) => {
+            alert("Window Resized!", event)
+        })
+        window.addEventListener('scroll', (event) => {
+            alert("Window Scrolled!", event)
+        })
+        // form.addEventListener('submit', submitForm)
+        // input.addEventListener('focus', (event) => {
+        //     const message = 'Input Focused';
+        //     console.log(`${message} - Event`, event)
+        //     console.log(`${message} - Target`, event.target)
+        //     console.log(`${message} - Current Target`, event.currentTarget)
+        //     var p = document.createElement('p');
+        //     p.innerText = message;
+        //     consoleContainer.append(p);
+        // })
+        // input.addEventListener('blur', (event) => {
+        //     const message = 'Input Blurred (Un-focused)';
+        //     console.log(`${message} - Event`, event)
+        //     console.log(`${message} - Target`, event.target)
+        //     console.log(`${message} - Current Target`, event.currentTarget)
+        //     var p = document.createElement('p');
+        //     p.innerText = message;
+        //     consoleContainer.append(p);
+        // })
+        // modal.addEventListener('mouseout', mouseout) 
+        // modal.addEventListener('mouseover', mouseover) 
+        // modal.addEventListener('click', (event) => { 
+        //     const message = 'Modal Clicked'
+        //     console.log(`${message} - Event`, event)
+        //     console.log(`${message} - Target`, event.target)
+        //     console.log(`${message} - Current Target`, event.currentTarget)
+        //     var p = document.createElement('p');
+        //     p.innerText = message;
+        //     consoleContainer.append(p);
+        // });
+        // btn.addEventListener('click', (event) => {
+        //     const message = 'Button Clicked 1'
+        //     console.log(`${message} - Event`, event)
+        //     console.log(`${message} - Target`, event.target)
+        //     console.log(`${message} - Current Target`, event.currentTarget)
+        //     var p = document.createElement('p');
+        //     p.innerText = message;
+        //     consoleContainer.append(p);
+        // });
+        // btn.addEventListener("click", (event) => {
+        //     const message = 'Button Clicked 2'
+        //     console.log(`${message} - Event`, event)
+        //     console.log(`${message} - Target`, event.target)
+        //     console.log(`${message} - Current Target`, event.currentTarget)
+        //     var p = document.createElement('p');
+        //     p.innerText = message;
+        //     consoleContainer.append(p);
+        // });
+        // btn.addEventListener("click", (event) => {
+        //     const message = 'Button Clicked 3'
+        //     console.log(`${message} - Event`, event)
+        //     console.log(`${message} - Target`, event.target)
+        //     console.log(`${message} - Current Target`, event.currentTarget)
+        //     var p = document.createElement('p');
+        //     p.innerText = message;
+        //     consoleContainer.append(p);
+        // });
+        // btn.addEventListener("click", (event) => {
+        //     const message = 'Button Clicked 4'
+        //     console.log(`${message} - Event`, event)
+        //     console.log(`${message} - Target`, event.target)
+        //     console.log(`${message} - Current Target`, event.currentTarget)
+        //     var p = document.createElement('p');
+        //     p.innerText = message;
+        //     consoleContainer.append(p);
+        // });
+        // btnText.addEventListener("click", (event) => {
+        //     console.log("🚀🚀 ~ file: index.html ~ line 17 ~ btn.addEventListener ~ e", event)
+        // });
+        // btnText2.addEventListener("click", (event) => {
+        //     console.log("🚀🚀🚀 ~ file: index.html ~ line 17 ~ btn.addEventListener ~ e", event)
+        // });
+        clearBtn.addEventListener('click', (event) => {
+            consoleContainer.innerHTML = "";
+        })
+    </script>
+</body>
+</html>

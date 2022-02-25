@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodingPhase JS Workshop &ndash; 2-24-22</title>
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css"
+    />
+    <style>
+      :root {
+        --addon-width: 24px;
+        --bg: #efefef;
+        --primary: #2196f3;
+        --primary-hover: #1981d6;
+        --text: rgba(0, 0, 0, 0.8);
+      }
+      .floating {
+        height: 50px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        animation-name: floating;
+        animation-duration: 2.5s;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-in-out;
+        transition: height 0.15s ease-in-out;
+        margin: 0 auto;
+        margin-top: 5px;
+      }
+
+      .floating.expanded {
+        height: 75px;
+      }
+
+      .floating.floating.expanded > div {
+      }
+
+      .floating button {
+        width: var(--addon-width);
+        height: 34px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+      }
+      .floating button i {
+        font-size: 24px;
+      }
+
+      @keyframes floating {
+        0% {
+          transform: translate(0, 0px);
+          -webkit-filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7));
+          filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7));
+        }
+        50% {
+          transform: translate(0, 15px);
+          -webkit-filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.7));
+          filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.7));
+        }
+        100% {
+          transform: translate(0, -0px);
+          -webkit-filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7));
+          filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7));
+        }
+      }
+      * {
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      body {
+        padding: 1rem;
+        overflow: hidden;
+        overflow-y: auto;
+      }
+      button {
+        appearance: none;
+        -webkit-appearance: none;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        background-color: var(--primary);
+        color: rgba(255, 255, 255, 0.86);
+      }
+
+      .floating > div:not(.strength) {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .input {
+        width: calc(100% - (var(--addon-width) + 1rem));
+        height: 34px;
+        border-radius: 0.5rem;
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        padding: 0.5rem 0.25rem;
+        display: block;
+        margin-bottom: 4rem;
+      }
+
+      .input:focus {
+        margin-bottom: 0;
+      }
+
+      .floating.expanded .strength {
+        /* display: flex; */
+      }
+
+      .strength > div,
+      .strength {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-top: 0.5rem;
+        margin-bottom: 4rem;
+      }
+      .strength > div {
+        margin: 0 1rem 0 0.25rem;
+      }
+
+      .strength {
+        /* display: none; */
+      }
+
+      .strength strong {
+        text-transform: uppercase;
+        color: #d00000;
+      }
+
+      .dot {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        margin-right: 0.125rem;
+      }
+
+      .dot.active {
+        background-color: var(--primary);
+      }
+
+      /* .dot:nth-of-type(1) {
+          background-color: red;
+      } */
+      .card {
+        -webkit-filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7));
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7));
+        background-color: var(--bg);
+        position: relative;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        z-index: 3;
+        margin: 0 auto;
+        margin-bottom: 4rem;
+        max-width: 300px;
+      }
+
+      .card img {
+        margin-left: -0.5rem;
+      }
+
+      .card-btm {
+        padding: 1rem 0;
+      }
+      .card-btm p {
+        margin: 0;
+      }
+      .card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 0 1rem;
+      }
+
+      .card .add-on {
+        position: relative;
+        border: none;
+      }
+      .card .add-on i {
+        height: 24px;
+        font-size: 24px;
+      }
+
+      .card .popover {
+        width: 100px;
+        left: unset;
+        right: 0;
+        transform: unset;
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
+      }
+
+      .clear {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background-color: var(--primary);
+        padding: 0.5rem 0.5rem 0.35rem;
+        border-radius: 0.5rem;
+        letter-spacing: 0.1rem;
+        color: rgba(255, 255, 255, 0.86);
+        cursor: pointer;
+        text-transform: uppercase;
+        font-weight: 600;
+        line-height: 1;
+        -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      }
+      .clear:hover {
+        background-color: var(--primary-hover);
+      }
+      .console {
+        position: relative;
+        width: 100%;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        background: var(--bg);
+        z-index: 0;
+      }
+      .select-all {
+        width: calc(var(--addon-width) * 1.5);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.125rem calc(var(--addon-width) + 0.5rem) 0.125rem 0.5rem;
+        position: relative;
+        z-index: 2;
+        border-radius: 0.25rem;
+        margin: 0 auto 2rem;
+      }
+
+      .select-all .checkbox {
+        height: 20px;
+        width: 20px;
+        flex: 0 0 20px;
+        border-radius: 0.25rem;
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        /* background: red; */
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .select-all .checkbox:hover {
+        background-color: #ddd;
+      }
+      .select-all.active .checkbox {
+        background-color: var(--primary);
+      }
+      .select-all .checkbox i {
+        color: rgba(255, 255, 255, 0.86);
+        display: none;
+      }
+      .select-all.active .checkbox i {
+        display: block;
+      }
+
+      .select-all .add-on {
+        position: relative;
+        width: calc(var(--addon-width) / 2);
+        height: 16px;
+        margin-left: 0.25rem;
+        color: rgba(0, 0, 0, 0.86);
+        border-left: none;
+      }
+
+      .select-all .add-on:hover {
+        background-color: #ddd;
+      }
+      .select-all .popover {
+        width: 100px;
+        left: 100%;
+        -webkit-filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+        -webkit-transform: translate(
+          calc(var(--addon-width) * -0.25),
+          calc(var(--addon-width) * -0.25)
+        );
+        transform: translate(
+          calc(var(--addon-width) * -0.25),
+          calc(var(--addon-width) * -0.25)
+        );
+      }
+      .split-btn {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.125rem calc(var(--addon-width) + 0.5rem) 0.125rem 0.5rem;
+        position: relative;
+        cursor: pointer;
+        margin: 0 auto;
+        z-index: 1;
+        -webkit-filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+        margin-bottom: 3rem;
+      }
+
+      .split-btn span {
+        margin: 0.5rem 0;
+      }
+
+      .add-on {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: var(--addon-width);
+        position: absolute;
+        top: 0;
+        right: 0;
+        border-left: 1px solid rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+      }
+
+      .add-on i {
+        color: currentColor;
+        height: 16px;
+      }
+
+      .split-btn .add-on i {
+        color: rgba(255, 255, 255, 0.86);
+      }
+
+      .popover {
+        width: 125%;
+        height: 0;
+        padding: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: var(--bg);
+        overflow: hidden;
+        border-radius: 0.25rem;
+        -webkit-transition: all 0.15s ease-in-out;
+        transition: all 0.15s ease-in-out;
+        cursor: pointer;
+      }
+      .popover ul {
+        width: 100%;
+        height: auto;
+        color: var(--text);
+        padding: 0;
+        margin: 0;
+        border-radius: 0.25rem;
+        overflow: hidden;
+      }
+      .popover ul li {
+        width: 100%;
+        height: 32px;
+        display: block;
+        padding: 0 0.25rem;
+        /* border-radius: 0.25rem; */
+        background-color: var(--bg);
+        -webkit-transition: all 0.15s ease-in-out;
+        transition: all 0.15s ease-in-out;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .popover ul li p {
+        margin: 0;
+      }
+      .popover ul li:hover {
+        background: #ccc;
+      }
+      .split-btn .add-on::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--bg);
+        opacity: 0;
+        transition: all 0.15s ease-in-out;
+        border-top-right-radius: 0.5rem;
+        border-bottom-right-radius: 0.5rem;
+      }
+
+      .split-btn .add-on:hover::before {
+        opacity: 0.25;
+      }
+
+      .card .add-on.open .popover,
+      .select-all.open .popover,
+      .split-btn.active .popover {
+        height: auto;
+        top: 100%;
+        -webkit-transition: all 0.15s ease-in-out;
+        transition: all 0.15s ease-in-out;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>What's Up CodingPhase!</h1>
+    <div class="floating card">
+      <div>
+        <input type="text" class="input" />
+        <button>
+          <i class="mdi mdi-arrow-right"></i>
+        </button>
+      </div>
+      <div class="strength">
+        <div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+        <strong>Weak</strong>
+      </div>
+    </div>
+    <!-- <div class="select-all">
+      <input type="checkbox" hidden name="select_all" id="select_all" />
+      <div class="checkbox">
+        <i class="mdi mdi-check"></i>
+      </div>
+      <div class="add-on">
+        <i class="mdi mdi-chevron-down"></i>
+      </div>
+      <div class="popover">
+        <ul>
+          <li>
+            <p>All</p>
+          </li>
+          <li>
+            <p>Read</p>
+          </li>
+          <li>
+            <p>Unread</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <button class="split-btn">
+      <span>Button</span>
+      <div class="add-on">
+        <i class="mdi mdi-chevron-down"></i>
+      </div>
+      <div class="popover">
+        <ul>
+          <li>
+            <p>Menu Item 1</p>
+          </li>
+        </ul>
+      </div>
+    </button>
+    <div class="card">
+      <div class="card-top">
+        <strong>Example Card</strong>
+        <div class="add-on">
+          <i class="mdi mdi-dots-vertical"></i>
+          <div class="popover">
+            <ul>
+              <li>Menu Item 1</li>
+              <li>Menu Item 2</li>
+              <li>Menu Item 3</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <img src="https://source.unsplash.com/random/300x150" alt="Card" />
+      <div class="card-btm">
+        <p>This is an example card</p>
+      </div>
+    </div> -->
+    <div class="console">
+      <div class="clear">Clear</div>
+      <div class="log"></div>
+    </div>
+    <script>
+      const strengthText = document.querySelector(".strength > strong");
+      const input = document.querySelector(".input");
+
+      const clearBtn = document.querySelector(".clear");
+      const consoleContainer = document.querySelector(".console .log");
+      //   const btn = document.querySelector(".split-btn");
+      //   const btnAddon = btn.querySelector(".add-on");
+      //   const btnMenu = btn.querySelector("ul");
+      //   const selectAll = document.querySelector(".select-all");
+      //   const selectAllAddon = selectAll.querySelector(".add-on");
+      //   const selectAllCheckbox = selectAll.querySelector(".checkbox");
+      //   const selectAllInput = selectAll.querySelector("input");
+      //   const selectAllMenu = selectAll.querySelector("ul");
+
+      //   const card = document.querySelector(".card:not(.floating)");
+      //   const cardAddon = card.querySelector(".add-on");
+      //   const cardMenu = cardAddon.querySelector("ul");
+
+      const calculateStrength = (value) => {
+        document.querySelectorAll(".dot").forEach((dot) => {
+          dot.classList.remove("active");
+        });
+        const falseStrength = Math.floor(value.length / 2);
+        let newStrength = "Weak";
+        for (var i = 1; i <= falseStrength; i++) {
+          console.log(
+            "🚀 ~ file: index.html ~ line 494 ~ input.addEventListener ~ falseStrength",
+            falseStrength
+          );
+          if (i < 2) {
+            newStrength = "Weak";
+            strengthText.style.color = "#d00000";
+          } else if (i >= 2 && i < 4) {
+            newStrength = "Okay";
+            strengthText.style.color = "#ffc300";
+          } else if (i >= 4) {
+            newStrength = "Strong";
+            strengthText.style.color = "#80b918";
+          }
+          strengthText.innerText = newStrength;
+          document
+            .querySelector(`.dot:nth-of-type(${i})`)
+            .classList.add("active");
+        }
+      };
+
+      // window.addEventListener("click", (event) => {
+      //   btn.classList.remove("active");
+      //   selectAll.classList.remove("open");
+      //   cardAddon.classList.remove("open");
+      // });
+      input.addEventListener("focus", (event) => {
+        event.currentTarget.closest(".floating.card").classList.add("expanded");
+        calculateStrength(event.currentTarget.value);
+      });
+      input.addEventListener("blur", (event) => {
+        input.closest(".floating.card").classList.remove("expanded");
+        calculateStrength(event.currentTarget.value);
+      });
+      input.addEventListener("input", (event) => {
+        calculateStrength(event.currentTarget.value);
+      });
+      //   btn.addEventListener("click", (event) => {
+      //     // event.currentTarget.closest('button').classList.add('active');
+      //     alert("Main Button Clicked");
+      //   });
+      //   btnMenu.addEventListener("click", (event) => {
+      //     event.stopPropagation();
+      //     const message = "Dropdown Menu Clicked";
+      //     var p = document.createElement("p");
+      //     p.innerText = message;
+      //     consoleContainer.append(p);
+      //   });
+      //   btnAddon.addEventListener("click", (event) => {
+      //     event.stopPropagation();
+      //     event.currentTarget.closest("button").classList.toggle("active");
+      //   });
+      //   cardAddon.addEventListener("click", (event) => {
+      //     event.stopPropagation();
+      //     event.currentTarget.classList.toggle("open");
+      //   });
+      //   cardMenu.addEventListener("click", (event) => {
+      //     event.stopPropagation();
+      //     alert("Card Popover Clicked");
+      //   });
+      //   selectAllCheckbox.addEventListener("click", (event) => {
+      //     event.stopPropagation();
+      //     const message = "Select All Checkbox Clicked";
+      //     var p = document.createElement("p");
+      //     p.innerText = message;
+      //     consoleContainer.append(p);
+      //     selectAll.classList.remove("open");
+      //     selectAll.classList.toggle("active");
+      //   });
+      //   selectAllMenu.addEventListener("click", (event) => {
+      //     event.stopPropagation();
+      //     const message = `Select All Dropdown Menu Clicked - ${
+      //       event.target.closest("li").innerText
+      //     }`;
+      //     var p = document.createElement("p");
+      //     p.innerText = message;
+      //     consoleContainer.append(p);
+      //   });
+      //   selectAllAddon.addEventListener("click", (event) => {
+      //     event.stopPropagation();
+      //     selectAll.classList.add("open");
+      //   });
+      clearBtn.addEventListener("click", (event) => {
+        consoleContainer.innerHTML = "";
+      });
+    </script>
+  </body>
+</html>
