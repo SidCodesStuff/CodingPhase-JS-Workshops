@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodingPhase JS Workshop &ndash; 2-24-22</title>
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css"
+    />
+    <style>
+      :root {
+        --addon-width: 24px;
+        --bg: #efefef;
+        --primary: #2196f3;
+        --primary-hover: #1981d6;
+        --text: rgba(0, 0, 0, 0.8);
+      }
+      .floating {
+        height: 50px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        animation-name: floating;
+        animation-duration: 2.5s;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-in-out;
+        transition: height 0.15s ease-in-out;
+        margin: 0 auto;
+        margin-top: 5px;
+      }
+
+      .floating.expanded {
+        height: 75px;
+      }
+
+      .floating.floating.expanded > div {
+      }
+
+      .floating button {
+        width: var(--addon-width);
+        height: 34px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+      }
+      .floating button i {
+        font-size: 24px;
+      }
+
+      @keyframes floating {
+        0% {
+          transform: translate(0, 0px);
+          -webkit-filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7));
+          filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7));
+        }
+        50% {
+          transform: translate(0, 15px);
+          -webkit-filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.7));
+          filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.7));
+        }
+        100% {
+          transform: translate(0, -0px);
+          -webkit-filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7));
+          filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7));
+        }
+      }
+      * {
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      body {
+        padding: 1rem;
+        overflow: hidden;
+        overflow-y: auto;
+      }
+      button {
+        appearance: none;
+        -webkit-appearance: none;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        background-color: var(--primary);
+        color: rgba(255, 255, 255, 0.86);
+      }
+
+      .floating > div:not(.strength) {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .input {
+        width: calc(100% - (var(--addon-width) + 1rem));
+        height: 34px;
+        border-radius: 0.5rem;
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        padding: 0.5rem 0.25rem;
+        display: block;
+        margin-bottom: 4rem;
+      }
+
+      .input:focus {
+        margin-bottom: 0;
+      }
+
+      .floating.expanded .strength {
+        /* display: flex; */
+      }
+
+      .strength > div,
+      .strength {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-top: 0.5rem;
+        margin-bottom: 4rem;
+      }
+      .strength > div {
+        margin: 0 1rem 0 0.25rem;
+      }
+
+      .strength {
+        /* display: none; */
+      }
+
+      .strength strong {
+        text-transform: uppercase;
+        color: #d00000;
+      }
+
+      .dot {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        margin-right: 0.125rem;
+      }
+
+      .dot.active {
+        background-color: var(--primary);
+      }
+
+      /* .dot:nth-of-type(1) {
+          background-color: red;
+      } */
+      .card {
+        -webkit-filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7));
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7));
+        background-color: var(--bg);
+        position: relative;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        z-index: 3;
+        margin: 0 auto;
+        margin-bottom: 4rem;
+        max-width: 300px;
+      }
+
+      .card img {
+        margin-left: -0.5rem;
+      }
+
+      .card-btm {
+        padding: 1rem 0;
+      }
+      .card-btm p {
+        margin: 0;
+      }
+      .card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 0 1rem;
+      }
+
+      .card .add-on {
+        position: relative;
+        border: none;
+      }
+      .card .add-on i {
+        height: 24px;
+        font-size: 24px;
+      }
+
+      .card .popover {
+        width: 100px;
+        left: unset;
+        right: 0;
+        transform: unset;
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.6));
+      }
+
+      .clear {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background-color: var(--primary);
+        padding: 0.5rem 0.5rem 0.35rem;
+        border-radius: 0.5rem;
+        letter-spacing: 0.1rem;
+        color: rgba(255, 255, 255, 0.86);
+        cursor: pointer;
+        text-transform: uppercase;
+        font-weight: 600;
+        line-height: 1;
+        -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      }
+      .clear:hover {
+        background-color: var(--primary-hover);
+      }
+      .console {
+        position: relative;
+        width: 100%;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        background: var(--bg);
+        z-index: 0;
+      }
+      .select-all {
+        width: calc(var(--addon-width) * 1.5);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.125rem calc(var(--addon-width) + 0.5rem) 0.125rem 0.5rem;
+        position: relative;
+        z-index: 2;
+        border-radius: 0.25rem;
+        margin: 0 auto 2rem;
+      }
+
+      .select-all .checkbox {
+        height: 20px;
+        width: 20px;
+        flex: 0 0 20px;
+        border-radius: 0.25rem;
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        /* background: red; */
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .select-all .checkbox:hover {
+        background-color: #ddd;
+      }
+      .select-all.active .checkbox {
+        background-color: var(--primary);
+      }
+      .select-all .checkbox i {
+        color: rgba(255, 255, 255, 0.86);
+        display: none;
+      }
+      .select-all.active .checkbox i {
+        display: block;
+      }
+
+      .select-all .add-on {
+        position: relative;
+        width: calc(var(--addon-width) / 2);
+        height: 16px;
+        margin-left: 0.25rem;
+        color: rgba(0, 0, 0, 0.86);
+        border-left: none;
+      }
+
+      .select-all .add-on:hover {
+        background-color: #ddd;
+      }
+      .select-all .popover {
+        width: 100px;
+        left: 100%;
+        -webkit-filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+        -webkit-transform: translate(
+          calc(var(--addon-width) * -0.25),
+          calc(var(--addon-width) * -0.25)
+        );
+        transform: translate(
+          calc(var(--addon-width) * -0.25),
+          calc(var(--addon-width) * -0.25)
+        );
+      }
+      .split-btn {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.125rem calc(var(--addon-width) + 0.5rem) 0.125rem 0.5rem;
+        position: relative;
+        cursor: pointer;
+        margin: 0 auto;
+        z-index: 1;
+        -webkit-filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+        margin-bottom: 3rem;
+      }
+
+      .split-btn span {
+        margin: 0.5rem 0;
+      }
+
+      .add-on {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: var(--addon-width);
+        position: absolute;
+        top: 0;
+        right: 0;
+        border-left: 1px solid rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+      }
+
+      .add-on i {
+        color: currentColor;
+        height: 16px;
+      }
+
+      .split-btn .add-on i {
+        color: rgba(255, 255, 255, 0.86);
+      }
+
+      .popover {
+        width: 125%;
+        height: 0;
+        padding: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: var(--bg);
+        overflow: hidden;
+        border-radius: 0.25rem;
+        -webkit-transition: all 0.15s ease-in-out;
+        transition: all 0.15s ease-in-out;
+        cursor: pointer;
+      }
+      .popover ul {
+        width: 100%;
+        height: auto;
+        color: var(--text);
+        padding: 0;
+        margin: 0;
+        border-radius: 0.25rem;
+        overflow: hidden;
+      }
+      .popover ul li {
+        width: 100%;
+        height: 32px;
+        display: block;
+        padding: 0 0.25rem;
+        /* border-radius: 0.25rem; */
+        background-color: var(--bg);
+        -webkit-transition: all 0.15s ease-in-out;
+        transition: all 0.15s ease-in-out;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .popover ul li p {
+        margin: 0;
+      }
+      .popover ul li:hover {
+        background: #ccc;
+      }
+      .split-btn .add-on::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--bg);
+        opacity: 0;
+        transition: all 0.15s ease-in-out;
+        border-top-right-radius: 0.5rem;
+        border-bottom-right-radius: 0.5rem;
+      }
+
+      .split-btn .add-on:hover::before {
+        opacity: 0.25;
+      }
+
+      .card .add-on.open .popover,
+      .select-all.open .popover,
+      .split-btn.active .popover {
+        height: auto;
+        top: 100%;
+        -webkit-transition: all 0.15s ease-in-out;
+        transition: all 0.15s ease-in-out;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>What's Up CodingPhase!</h1>
+    <h1>Shopping List &ndash; <span id="list-length"></span> Items</h1>
+    <div id="fruits-list">
+      <p>Apples</p>
+      <p>Bananas</p>
+      <p>Cantaloupes</p>
+      <p>Lemons</p>
+      <p>Limes</p>
+      <p>Cantaloupes</p>
+      <p>Mangoes</p>
+      <p>Oranges</p>
+    </div>
+    <strong id="apples-index"></strong>
+    <strong id="canta-index"></strong>
+    <strong id="first-fruit"></strong>
+    <strong id="last-fruit"></strong>
+    <div id="cleaning-list"></div>
+    <script>
+      var fruitsList = document.getElementById("fruits-list");
+      var cleaningList = document.getElementById("cleaning-list");
+      var fruits = [
+        "Apples",
+        "Bananas",
+        "Cantaloupes",
+        "Lemons",
+        "Limes",
+        "Mangoes",
+        "Cantaloupes",
+        "Oranges",
+      ];
+      var cleaning = ["Dawn Soap", "Fabuloso", "Pledge", "Windex"];
+
+      // var listLength = fruits.length
+      // document.getElementById("list-length").innerText = listLength
+
+      var appleIndex = fruits.indexOf("Apples");
+      document.getElementById("apples-index").innerText = appleIndex;
+
+      var cantalopeIndex = fruits.indexOf("Cantaloupes");
+      document.getElementById("canta-index").innerText = cantalopeIndex;
+
+      const updateCleaning = () => {
+        cleaning.forEach((item) => {
+          var p = document.createElement("p");
+          p.innerText = item;
+          cleaningList.append(p);
+        });
+      };
+      const updateFruits = () => {
+        fruits.forEach((item) => {
+          var p = document.createElement("p");
+          p.innerText = item;
+          fruitsList.append(p);
+        });
+      };
+
+      // fruits.push("Watermelons");
+      // updateFruits();
+
+      // fruits.unshift("Avacodos");
+      // updateFruits();
+
+      // var lastFruit = fruits.pop()
+      // document.getElementById('last-fruit').innerText(lastFruit)
+      // var firstFruit = fruits.shift()
+      // document.getElementById('first-fruit').innerText(firstFruit)
+
+      // var combinedList = fruits.concat(cleaning)
+      // var foundItem = fruits.find((item) => item === 'Cantalopes')
+    </script>
+  </body>
+</html>
