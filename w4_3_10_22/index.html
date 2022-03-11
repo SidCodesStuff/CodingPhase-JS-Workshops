@@ -101,13 +101,13 @@
   </head>
   <body>
     <h1 class="header">Javascript Objects! 🚀🚗🐕🦌📸🎥📱</h1>
-    <!-- <h2 class="sub-header">What Are Objects? 🤔</h2> -->
-    <!-- <p class="sub-header-content">
+    <h2 class="sub-header">What Are Objects? 🤔</h2>
+    <p class="sub-header-content">
       Javascript objects are a collection of values, called properties, that can
       be accessed from a single variable.<br />
       Real world examples of objects include:
-    </p> -->
-    <!-- <ul>
+    </p>
+    <ul>
       <li>🚀 &ndash; Rockets</li>
       <li>🚗 &ndash; Cars</li>
       <li>🐕 &ndash; Cats</li>
@@ -115,50 +115,59 @@
       <li>📸 &ndash; Cameras</li>
       <li>🎥 &ndash; Film Cameras</li>
       <li>📱 &ndash; Phones</li>
-    </ul> -->
-    <!-- <pre><code class="language-js">    // Object Declaration 
+    </ul>
+    <pre><code class="language-js">    // Object Declaration 
     var j = {}
     var jAlternative = new Object()
     // Property Declaration
-    j.property = "property1 value"
+    j.property = "property1_value"
     j["property2"] = 2
-    j[j.value] = true
-    console.log(j) // { "property": "value", "property2" : 2, "property1 value" : true }</code></pre> -->
-    <!-- <h2 class="sub-header">Objects You're Familiar With</h2> -->
+    j[j.property] = true
+    console.log(j) // { "property": "property1_value", "property2" : 2, "property1_value" : true }</code></pre>
+    <h2 class="sub-header">Objects You're Familiar With</h2>
     <ul>
-      <!-- <li>Window</li>
+      <li>Window</li>
       <pre><code class="language-js">    window.addEventListener("load", (e) => {})
-    window.location.pathname // '/w4_3_10_22/index.html'</code></pre> -->
-      <!-- <li>Document</li>
+    window.location.pathname // '/w4_3_10_22/index.html'
+      var window = {
+        location: {
+          pathname: '/w4_3_10_22/index.html',
+        }
+      }</code></pre>
+      <li>Document</li>
       <pre><code class="language-js">    document.getElementById("my_btn")
-    document.body // body object</code></pre> -->
-      <!-- <li>Event</li>
+    document.body // body object</code></pre>
+      <li>Event</li>
       <pre><code class="language-js">    event // PointerEvent Object
     event.currentTarget // Element with event listener attached
-    event.path // [button, body, html, document, Window]</code></pre> -->
-      <!-- <li>Array</li>
+    event.path // [button, body, html, document, Window]</code></pre>
+      <li>Array</li>
       <pre><code class="language-js">    var array = new Array(10).fill(0)
-    arr.indexOf("0")
-    typeof arr // "object"</code></pre> -->
+    array.indexOf("0") // 0
+    typeof array // "object"</code></pre>
     </ul>
-    <!-- <h2 class="sub-header">Why and When To Use Objects</h2> -->
-    <!-- <p class="sub-header-content">
+    <h2 class="sub-header">Why and When To Use Objects</h2>
+    <p class="sub-header-content">
       Objects are useful for cases when you have a number of values that should
       be assosciated with each other. In addition to that, there are times when
       you want to pass a number of values or data around in your code.<br />
       In this case it makes more since to have data passed attached to a single
       variable rather than passing in multiple paramaters or using the variables
       individually
-    </p> -->
-    <!-- <pre><code class="language-js">    var fname = "Sid";
+    </p>
+    <pre><code class="language-js">    var fname = "Sid";
     var lname = "Codes";
     var rating = 5;
     
     var me = {
       fname: fname,
+      mname: "J",
       lname,
       rating,
     }
+
+    me.fname // "Sid"
+    me.lname // "Codes"
 
     function fullName(fname, lname, rating) {
       return fname + " " + lname + " " + rating + "*"
@@ -169,19 +178,19 @@
     }
 
     console.log(me) // { "fname": "Sid", lname: "Codes", "rating": 5 }
-    console.log(fullName(fname, lname)) // "Sid Codes"
-    console.log(fullNameWithObject(me)) // "Sid Codes"</code></pre> -->
-    <!-- <h2 class="sub-header">Object Prototypes</h2> -->
-    <!-- <p class="sub-header-content">
+    console.log(fullName(fname, lname, rating)) // "Sid Codes"
+    console.log(fullNameWithObject(me)) // "Sid Codes"</code></pre>
+    <h2 class="sub-header">Object Prototypes</h2>
+    <p class="sub-header-content">
       Object prototypes allow for an object's properties to be extended.<br />
       This is useful when doing inheritance. You may have a general/parent
       object and have a more specific child object that has additional values
       tied to it.
-    </p> -->
-    <!-- <ul>
+    </p>
+    <ul>
       <pre><code class="language-js">
   new Array().sum //undefined
-  Array.prototype.sum = () => {
+  Array.prototype.sum = (this) => {
       let total = 0;
       this.forEach((item, index) => {
           console.log("Item #"+(index+1)+": ", item)
@@ -198,9 +207,9 @@
   // Item #4: 4
   // Item #5: 5
   // Sum: 15</code></pre>
-    </ul> -->
-    <!-- <h2 class="sub-header">Object Oriented Programming</h2> -->
-    <!-- <ul>
+    </ul>
+    <h2 class="sub-header">Object Oriented Programming</h2>
+    <ul>
       <pre><code class="language-js">
   class Vehicle {
     constructor(name, year) {
@@ -245,7 +254,7 @@
   class Truck extends FWV {
     constructor(name, year) {
       super(name, year);
-      this.type = "Truck"
+      this.type = "Pickup Truck"
     }
   }
   let myCar = new Car("Ford Focus", 2014);
@@ -254,7 +263,7 @@
   console.log(myCar) // { "name": "Ford Focus", year: 2014, wheels: 4, type: "Car"}
   console.log(myMotorcycle) // { "name": "Kawasaki", year: 2016, wheels: 2, type: "Motorcycle"}
   console.log(myTruck) // { "name": "Chevy Silverado", year: 2020, wheels: 4, type: "Pickup Truck"}</code></pre>
-    </ul> -->
+    </ul>
     <div class="console">
       <div class="clear">Clear</div>
       <div class="log"></div>
@@ -339,6 +348,10 @@
           super(name, year);
           this.wheels = 4;
         }
+
+        turnOnAWD() {
+          console.log("Turning ON AWD");
+        }
       }
       class TWV extends Vehicle {
         constructor(name, year) {
@@ -361,7 +374,7 @@
       class Truck extends FWV {
         constructor(name, year) {
           super(name, year);
-          this.type = "Truck";
+          this.type = "Pickup Truck";
         }
       }
 
