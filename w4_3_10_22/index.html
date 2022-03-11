@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodingPhase JS Workshop 4 &ndash; 3-10-22</title>
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css"
+    />
+    <link href="prism.css" rel="stylesheet" />
+    <style>
+      :root {
+        --addon-width: 24px;
+        --bg: #efefef;
+        --primary: #2196f3;
+        --primary-hover: #1981d6;
+        --text: rgba(0, 0, 0, 0.8);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      body {
+        padding: 1rem;
+        overflow: hidden;
+        overflow-y: auto;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      button {
+        appearance: none;
+        -webkit-appearance: none;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        background-color: var(--primary);
+        color: rgba(255, 255, 255, 0.86);
+      }
+
+      .clear {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background-color: var(--primary);
+        padding: 0.5rem 0.5rem 0.35rem;
+        border-radius: 0.5rem;
+        letter-spacing: 0.1rem;
+        color: rgba(255, 255, 255, 0.86);
+        cursor: pointer;
+        text-transform: uppercase;
+        font-weight: 600;
+        line-height: 1;
+        -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      }
+      .clear:hover {
+        background-color: var(--primary-hover);
+      }
+      .console {
+        position: relative;
+        width: 100%;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        background: var(--bg);
+        z-index: 0;
+        margin-top: 2rem;
+      }
+
+      .header {
+        font-size: 3.75rem;
+      }
+      .sub-header {
+        font-size: 2.75rem;
+        margin: 4rem 0 1rem;
+      }
+      .sub-header-content {
+        font-size: 1.75rem;
+        padding-left: 2rem;
+      }
+      .sub-header-content ul {
+        padding-left: 2rem;
+      }
+      body > ul {
+        list-style: disc;
+        margin-left: 2rem;
+        font-size: 1.5rem;
+      }
+      pre[class*="language-"] {
+        padding: 1rem 0;
+        border-radius: 0.5rem;
+        -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="header">Javascript Objects! 🚀🚗🐕🦌📸🎥📱</h1>
+    <!-- <h2 class="sub-header">What Are Objects? 🤔</h2> -->
+    <!-- <p class="sub-header-content">
+      Javascript objects are a collection of values, called properties, that can
+      be accessed from a single variable.<br />
+      Real world examples of objects include:
+    </p> -->
+    <!-- <ul>
+      <li>🚀 &ndash; Rockets</li>
+      <li>🚗 &ndash; Cars</li>
+      <li>🐕 &ndash; Cats</li>
+      <li>🦌 &ndash; Deer</li>
+      <li>📸 &ndash; Cameras</li>
+      <li>🎥 &ndash; Film Cameras</li>
+      <li>📱 &ndash; Phones</li>
+    </ul> -->
+    <!-- <pre><code class="language-js">    // Object Declaration 
+    var j = {}
+    var jAlternative = new Object()
+    // Property Declaration
+    j.property = "property1 value"
+    j["property2"] = 2
+    j[j.value] = true
+    console.log(j) // { "property": "value", "property2" : 2, "property1 value" : true }</code></pre> -->
+    <!-- <h2 class="sub-header">Objects You're Familiar With</h2> -->
+    <ul>
+      <!-- <li>Window</li>
+      <pre><code class="language-js">    window.addEventListener("load", (e) => {})
+    window.location.pathname // '/w4_3_10_22/index.html'</code></pre> -->
+      <!-- <li>Document</li>
+      <pre><code class="language-js">    document.getElementById("my_btn")
+    document.body // body object</code></pre> -->
+      <!-- <li>Event</li>
+      <pre><code class="language-js">    event // PointerEvent Object
+    event.currentTarget // Element with event listener attached
+    event.path // [button, body, html, document, Window]</code></pre> -->
+      <!-- <li>Array</li>
+      <pre><code class="language-js">    var array = new Array(10).fill(0)
+    arr.indexOf("0")
+    typeof arr // "object"</code></pre> -->
+    </ul>
+    <!-- <h2 class="sub-header">Why and When To Use Objects</h2> -->
+    <!-- <p class="sub-header-content">
+      Objects are useful for cases when you have a number of values that should
+      be assosciated with each other. In addition to that, there are times when
+      you want to pass a number of values or data around in your code.<br />
+      In this case it makes more since to have data passed attached to a single
+      variable rather than passing in multiple paramaters or using the variables
+      individually
+    </p> -->
+    <!-- <pre><code class="language-js">    var fname = "Sid";
+    var lname = "Codes";
+    var rating = 5;
+    
+    var me = {
+      fname: fname,
+      lname,
+      rating,
+    }
+
+    function fullName(fname, lname, rating) {
+      return fname + " " + lname + " " + rating + "*"
+    }
+
+    function fullNameWithObject(data) {
+      return data.fname + " " + data.lname + " " + data.rating + "*"
+    }
+
+    console.log(me) // { "fname": "Sid", lname: "Codes", "rating": 5 }
+    console.log(fullName(fname, lname)) // "Sid Codes"
+    console.log(fullNameWithObject(me)) // "Sid Codes"</code></pre> -->
+    <!-- <h2 class="sub-header">Object Prototypes</h2> -->
+    <!-- <p class="sub-header-content">
+      Object prototypes allow for an object's properties to be extended.<br />
+      This is useful when doing inheritance. You may have a general/parent
+      object and have a more specific child object that has additional values
+      tied to it.
+    </p> -->
+    <!-- <ul>
+      <pre><code class="language-js">
+  new Array().sum //undefined
+  Array.prototype.sum = () => {
+      let total = 0;
+      this.forEach((item, index) => {
+          console.log("Item #"+(index+1)+": ", item)
+          total += item
+      })
+      console.log("Sum: ", total)
+      return total
+  }
+  let array = [1,2,3,4,5]
+  array.sum() // 15
+  // Item #1: 1
+  // Item #2: 2
+  // Item #3: 3
+  // Item #4: 4
+  // Item #5: 5
+  // Sum: 15</code></pre>
+    </ul> -->
+    <!-- <h2 class="sub-header">Object Oriented Programming</h2> -->
+    <!-- <ul>
+      <pre><code class="language-js">
+  class Vehicle {
+    constructor(name, year) {
+      this.name = name;
+      this.year = year;
+    }
+    age() {
+      let date = new Date();
+      return date.getFullYear() - this.year;
+    }
+    accelerate() {
+      return "GO!";
+    }
+    brake() {
+      return "STOP!";
+    }
+  }
+  class FWV extends Vehicle {
+    constructor(name,year) {
+      super(name,year)
+      this.wheels = 4
+    }
+  }
+  class TWV extends Vehicle {
+    constructor(name,year) {
+      super(name,year)
+      this.wheels = 2
+    }
+  }
+  class Car extends FWV {
+    constructor(name, year) {
+      super(name, year);
+      this.type = "Car"
+    }
+  }
+  class Motorcycle extends TWV {
+    constructor(name, year) {
+      super(name, year);
+      this.type = "Motorcycle"
+    }
+  }
+  class Truck extends FWV {
+    constructor(name, year) {
+      super(name, year);
+      this.type = "Truck"
+    }
+  }
+  let myCar = new Car("Ford Focus", 2014);
+  let myMotorcycle = new Motorcycle("Kawasaki", 2016);
+  let myTruck = new Truck("Chevy Silverado", 2020);
+  console.log(myCar) // { "name": "Ford Focus", year: 2014, wheels: 4, type: "Car"}
+  console.log(myMotorcycle) // { "name": "Kawasaki", year: 2016, wheels: 2, type: "Motorcycle"}
+  console.log(myTruck) // { "name": "Chevy Silverado", year: 2020, wheels: 4, type: "Pickup Truck"}</code></pre>
+    </ul> -->
+    <div class="console">
+      <div class="clear">Clear</div>
+      <div class="log"></div>
+    </div>
+    <script src="prism.js"></script>
+    <script>
+      // Object Declaration
+      var j = {};
+      var jAlternative = new Object();
+
+      // Property Declaration
+      j.property = "property1_value";
+      j["property2"] = 2;
+      j[j.property] = true;
+
+      console.log(j); // { "property": "value", "property2" : 2, "property1 value" : true }
+
+      // Window Object Examples
+      window.addEventListener("load", (e) => {});
+      window.location.pathname; // '/w4_3_10_22/index.html'
+
+      // Document Object Examples
+      document.getElementById("my_btn");
+      document.body; // body object
+
+      // Event Object Examples
+      document
+        .getElementsByTagName("h2")[0]
+        .addEventListener("click", (event) => {
+          console.log(event); // PointerEvent Object
+          var currentTarget = event.currentTarget; // Element with event listener attached
+          var bubbleUpPath = event.path; // [button, body, html, document, Window]
+        });
+
+      // Array Object Examples
+      var array = new Array(10).fill(0);
+      console.log(array.indexOf("0"));
+      console.log(typeof array); // "object"
+
+      // Why and When to use Objects
+      var fname = "Sid";
+      var lname = "Codes";
+      var rating = 5;
+
+      var me = {
+        fname: fname,
+        lname,
+        rating,
+      };
+
+      function fullName(fname, lname, rating) {
+        return fname + " " + lname + " " + rating + "*";
+      }
+
+      function fullNameWithObject(data) {
+        return data.fname + " " + data.lname + " " + data.rating + "*";
+      }
+
+      console.log(me); // { "fname": "Sid", lname: "Codes", "rating": 5 }
+      console.log(fullName(fname, lname, rating)); // "Sid Codes"
+      console.log(fullNameWithObject(me)); // "Sid Codes"
+
+      // Intro to Object Oriented Programming
+      class Vehicle {
+        constructor(name, year) {
+          this.name = name;
+          this.year = year;
+        }
+        age() {
+          let date = new Date();
+          return date.getFullYear() - this.year;
+        }
+        accelerate() {
+          return "GO!";
+        }
+        brake() {
+          return "STOP!";
+        }
+      }
+      class FWV extends Vehicle {
+        constructor(name, year) {
+          super(name, year);
+          this.wheels = 4;
+        }
+      }
+      class TWV extends Vehicle {
+        constructor(name, year) {
+          super(name, year);
+          this.wheels = 2;
+        }
+      }
+      class Car extends FWV {
+        constructor(name, year) {
+          super(name, year);
+          this.type = "Car";
+        }
+      }
+      class Motorcycle extends TWV {
+        constructor(name, year) {
+          super(name, year);
+          this.type = "Motorcycle";
+        }
+      }
+      class Truck extends FWV {
+        constructor(name, year) {
+          super(name, year);
+          this.type = "Truck";
+        }
+      }
+
+      let myCar = new Car("Ford Focus", 2014);
+      let myMotorcycle = new Motorcycle("Kawasaki", 2016);
+      let myTruck = new Truck("Chevy Silverado", 2020);
+      console.log(myCar); // { "name": "Ford Focus", year: 2014, wheels: 4, type: "Car"}
+      console.log(myMotorcycle); // { "name": "Kawasaki", year: 2016, wheels: 2, type: "Motorcycle"}
+      console.log(myTruck); // { "name": "Chevy Silverado", year: 2020, wheels: 4, type: "Pickup Truck"}
+    </script>
+  </body>
+</html>
