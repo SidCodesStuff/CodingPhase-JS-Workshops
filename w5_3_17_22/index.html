@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodingPhase JS Workshop 4 &ndash; 3-10-22</title>
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css"
+    />
+    <style>
+      :root {
+        --addon-width: 24px;
+        --bg: #efefef;
+        --primary: #2196f3;
+        --primary-hover: #1981d6;
+        --text: rgba(0, 0, 0, 0.8);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      body {
+        padding: 1rem;
+        overflow: hidden;
+        overflow-y: auto;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      button {
+        appearance: none;
+        -webkit-appearance: none;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        background-color: var(--primary);
+        color: rgba(255, 255, 255, 1);
+        cursor: pointer;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05rem;
+      }
+
+      button.disabled {
+        background-color: #ccc;
+      }
+      button.success {
+        background-color: #29af4f;
+      }
+
+      .clear {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background-color: var(--primary);
+        padding: 0.5rem 0.5rem 0.35rem;
+        border-radius: 0.5rem;
+        letter-spacing: 0.1rem;
+        color: rgba(255, 255, 255, 0.86);
+        cursor: pointer;
+        text-transform: uppercase;
+        font-weight: 600;
+        line-height: 1;
+        -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      }
+      .clear:hover {
+        background-color: var(--primary-hover);
+      }
+      .console {
+        position: relative;
+        width: 100%;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        background: var(--bg);
+        z-index: 0;
+        margin-top: 2rem;
+      }
+
+      .header {
+        font-size: 3.75rem;
+      }
+      .sub-header {
+        font-size: 2.75rem;
+        margin: 4rem 0 1rem;
+      }
+      .sub-header-content {
+        font-size: 1.75rem;
+        padding-left: 2rem;
+      }
+      .sub-header-content ul {
+        padding-left: 2rem;
+      }
+
+      .sub-header.quiz-name {
+        position: relative;
+      }
+      .sub-header.quiz-name::before {
+        content: "Click Below To Edit Quiz Name";
+        position: absolute;
+        bottom: 100%;
+        left: 0;
+        font-weight: 600;
+        font-size: 0.8rem;
+      }
+
+      #questions {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        grid-auto-rows: minmax(calc(30px + 2rem), auto);
+        grid-gap: 2rem;
+        padding: 1rem;
+        align-items: start;
+        counter-reset: questions;
+      }
+
+      .question {
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        background-color: white;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+        counter-increment: questions;
+      }
+
+      .question::before {
+        content: counter(questions);
+        font-size: 3rem;
+        font-weight: 600;
+      }
+
+      .question select {
+        display: block;
+        margin: 0 auto 1rem;
+      }
+      .question strong {
+        display: block;
+        text-align: left;
+      }
+
+      .question .answers {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-top: 1rem;
+        counter-reset: choices;
+      }
+
+      .question .answers > button:last-of-type {
+        margin-top: 0.5rem;
+      }
+
+      .answers .answer {
+        counter-increment: choices;
+        margin-bottom: 0.5rem;
+        padding: 5px calc(20px + 0.25rem) 0 calc(30px + 0.5rem);
+        padding-top: 5px;
+        position: relative;
+        min-height: 30px;
+      }
+
+      .answer::before {
+        content: counter(choices);
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        margin-right: 0.25rem;
+        color: rgba(255, 255, 255, 0.86);
+        background-color: var(--primary);
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        line-height: 1;
+      }
+
+      .question > button.remove,
+      .answer button.remove {
+        position: absolute;
+        top: 5px;
+        right: 0;
+        width: 20px;
+        height: 20px;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: transparent;
+        color: rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+      }
+
+      .question > button.remove {
+        top: 0.5rem;
+        right: 0.5rem;
+      }
+
+      .answer button.remove i,
+      .question > button.remove i {
+        font-size: 1.5rem;
+        color: inherit;
+        line-height: 1;
+      }
+
+      .question > button.remove {
+        width: 2rem;
+        height: 2rem;
+        top: 0.5rem;
+        right: 0.5rem;
+      }
+
+      .answer button.remove i {
+        font-size: 1rem;
+      }
+
+      .question > button.remove:hover,
+      .answer button.remove:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+        color: rgba(0, 0, 0, 0.86);
+      }
+
+      .add-question {
+        align-self: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="header">Object Oriented Programming! 🎓</h1>
+    <h2
+      class="sub-header quiz-name"
+      contenteditable="true"
+      oninput="updateQuizName()"
+    >
+      Quiz Name
+    </h2>
+    <!-- <button onclick="saveQuiz()" style="margin: 2rem 0" class="success">
+      Save Quiz
+    </button> -->
+    <button onclick="getQuizData()" style="margin: 2rem 0">Quiz Data</button>
+    <div id="questions">
+      <button class="add-question">Add Question</button>
+    </div>
+    <div class="console">
+      <div class="clear">Clear</div>
+      <div class="log"></div>
+    </div>
+    <script>
+      class Question {
+        constructor(text, answerChoices, answerIndex) {
+          this.text = text ?? "";
+          this.answerChoices = answerChoices ?? [];
+          this.answerIndex = answerIndex ?? null;
+        }
+      }
+      class Quiz {
+        constructor(name, numOfQuestions) {
+          this.name = name;
+          this.questions = new Array(numOfQuestions).fill(new Question());
+        }
+
+        addQuestion(text) {
+          this.questions.push(new Question(text));
+        }
+
+        outputQuestions() {
+          console.log("This quizzes' questions", this.questions);
+        }
+        removeQuestion(question) {
+          if (this.questions.length === 1) {
+            this.questions = [];
+            return;
+          }
+          let questions = [];
+          for (let i = 0; i < this.questions.length; i++) {
+            if (i !== question.index) {
+              questions.push(this.questions[i]);
+            }
+          }
+          this.questions = questions;
+          addQuestionBtn.classList.remove("disabled");
+          populateQuizQuestions();
+        }
+
+        updateName(name) {
+          this.name = name;
+        }
+        updateQuestion(newQuestion, index) {
+          this.questions[index] = newQuestion;
+          //   this.questions[index] = new Question(newQuestion.text, newQuestion.answerChoices, newQuestion.answerIndex);
+        }
+      }
+      let quiz = null;
+
+      window.addEventListener("load", (event) => {
+        createQuiz();
+      });
+
+      const createQuiz = () => {
+        quiz = new Quiz(document.querySelector(".quiz-name").innerText, 1);
+        addQuestionBtn.classList.remove("disabled");
+        document
+          .querySelectorAll("#questions .question")
+          .forEach((question) => {
+            question.remove();
+          });
+        quiz.outputQuestions();
+        populateQuizQuestions(quiz);
+      };
+
+      const getQuizData = () => {
+        console.log("Quiz", quiz);
+      };
+
+      const populateQuizQuestions = () => {
+        resetQuiz();
+        quiz.questions.forEach((question, index) => {
+          createQuestion(question, index);
+        });
+      };
+
+      const resetQuiz = () => {
+        document.querySelectorAll(".question").forEach((question) => {
+          question.remove();
+        });
+      };
+
+      const updateQuizName = (event) => {
+        let value = document.querySelector("h2[contenteditable]").innerText;
+        console.log("Event: ", value);
+        quiz.updateName(value);
+      };
+      // 1 - Adding Questions
+      var addQuestionBtn = document.querySelector("button.add-question");
+      addQuestionBtn.addEventListener("click", (event) => {
+        if (quiz.questions.length >= 30) {
+          addQuestionBtn.classList.add("disabled");
+          setTimeout(() => {
+            alert("The current maximum of questions is 30 per quiz");
+          }, 15);
+          return;
+        }
+        addQuestionBtn.classList.remove("disabled");
+        quiz.addQuestion();
+        let newQuestionIndex = quiz.questions.length - 1;
+        createQuestion(quiz.questions[newQuestionIndex], newQuestionIndex);
+      });
+
+      // 2 - Create Question
+      const createQuestion = (question, index) => {
+        // Questions Container
+        var qs = document.getElementById("questions");
+
+        // Question Card Element
+        var q = document.createElement("div");
+        q.classList.add("question", "multiple-choice");
+
+        // Hidden Question Input
+        var qInput = document.createElement("input");
+        qInput.setAttribute("type", "hidden");
+        qInput.setAttribute("value", JSON.stringify({ ...question, index }));
+
+        // Correct Answer Select Element
+        var answerSelect = document.createElement("select");
+        // "No Value" Answer Option Element
+        var answerOption = document.createElement("option");
+        answerOption.innerText = "Select Answer";
+        answerSelect.append(answerOption);
+
+        // Question Text Element
+        var qText = document.createElement("strong");
+        qText.innerText =
+          question.text !== "" ? question.text : "Enter Question Text Here";
+        qText.setAttribute("contenteditable", true);
+        qText.innerText =
+          question.text !== "" ? question.text : "Enter Question Text Here";
+
+        // Question Answers Container
+        var qAnswers = document.createElement("div");
+
+        // Answer Removal Button
+        var remove = document.createElement("button");
+        var removeIcon = document.createElement("i");
+        removeIcon.classList.add("mdi", "mdi-close");
+        remove.append(removeIcon);
+        remove.classList.add("remove");
+        remove.addEventListener("click", (event) => {
+          const question = JSON.parse(
+            event.currentTarget
+              .closest(".question")
+              .querySelector("input")
+              .getAttribute("value")
+          );
+          if (confirm("Are you sure you want to delete this question?")) {
+            quiz.removeQuestion(question);
+            event.currentTarget.closest(".question").remove();
+          }
+        });
+
+        // Save Question Button
+        var saveQuestionBtn = document.createElement("button");
+        saveQuestionBtn.classList.add("success");
+        saveQuestionBtn.innerText = "Save Question";
+
+        // Add Answer Button
+        var addAnswerBtn = document.createElement("button");
+        addAnswerBtn.innerText = "Add Answer";
+
+        // Save Question Button Listeners
+        // saveQuestionBtn.addEventListener("click", (event) => {
+        //   const question = event.currentTarget.closest(".question");
+        //   let qInput = JSON.parse(question.querySelector("input").value);
+        //   let correctAnswer = question.querySelector("select").value;
+        //   console.log(
+        //     "🚀 ~ file: index.html ~ line 395 ~ saveQuestionBtn.addEventListener ~ correctAnswer",
+        //     correctAnswer
+        //   );
+        //   let questionText = question.querySelector(
+        //     "strong:nth-of-type(2)"
+        //   ).innerText;
+        //   let answers = question.querySelectorAll(".answer");
+        //   let choices = [...answers].map((answer, index) => answer.innerText);
+        //   if (answers.length <= 1) {
+        //     alert("A Question Must Have More Than 1 Answer Choice To Be Saved");
+        //     return;
+        //   }
+        //   if (correctAnswer == "Select Answer") {
+        //     alert("A Question Must Have A Correct Answer Choice Chosen");
+        //     return;
+        //   }
+        //   const questionData = {
+        //     text: questionText,
+        //     answerChoices: choices,
+        //     answerIndex: +correctAnswer - 1,
+        //   };
+        //   quiz.updateQuestion(questionData, qInput.index);
+        // });
+        // Add Answer Button Listeners
+        // addAnswerBtn.addEventListener("click", (event) => {
+        //   var qAnswer = document.createElement("div");
+        //   qAnswer.classList.add("answer");
+        //   var qAnswerText = document.createElement("strong");
+        //   qAnswerText.innerText = "Answer Here";
+        //   qAnswerText.setAttribute("contenteditable", true);
+        //   var remove = document.createElement("button");
+        //   var removeIcon = document.createElement("i");
+        //   removeIcon.classList.add("mdi", "mdi-close");
+        //   remove.append(removeIcon);
+        //   remove.classList.add("remove");
+        //   remove.addEventListener("click", (event) => {
+        //     event.currentTarget.closest(".answer").remove();
+        //   });
+        //   qAnswer.append(qAnswerText);
+        //   qAnswer.append(remove);
+        //   addAnswerBtn.before(qAnswer);
+        //   var answerOption = document.createElement("option");
+        //   newOptionText = event.currentTarget
+        //     .closest(".answers")
+        //     .querySelectorAll(".answer").length;
+        //   answerOption.innerText = newOptionText;
+        //   answerSelect.append(answerOption);
+        // });
+
+        // Build Question Card
+        qAnswers.classList.add("answers");
+        qAnswers.append(addAnswerBtn);
+        qAnswers.append(saveQuestionBtn);
+        q.append(qInput);
+        q.append(answerSelect);
+        q.append(qText);
+        q.append(remove);
+        q.append(qAnswers);
+        var correctAnswerText = document.createElement("strong");
+        correctAnswerText.innerText = "Correct Answer";
+        correctAnswerText.style = "text-align: center; margin-bottom: 0.25rem";
+        answerSelect.before(correctAnswerText);
+        addQuestionBtn.before(q);
+      };
+    </script>
+  </body>
+</html>
