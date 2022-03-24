@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodingPhase JS Workshop 6 &ndash; 3-24-22</title>
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css"
+    />
+    <style>
+      :root {
+        --addon-width: 24px;
+        --bg: #efefef;
+        --primary: #2196f3;
+        --primary-hover: #1981d6;
+        --text: rgba(0, 0, 0, 0.8);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      body {
+        padding: 1rem;
+        overflow: hidden;
+        overflow-y: auto;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      button {
+        appearance: none;
+        -webkit-appearance: none;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        background-color: var(--primary);
+        color: rgba(255, 255, 255, 1);
+        cursor: pointer;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05rem;
+      }
+
+      button.disabled {
+        background-color: #ccc;
+      }
+      button.success {
+        background-color: #29af4f;
+      }
+
+      .clear {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background-color: var(--primary);
+        padding: 0.5rem 0.5rem 0.35rem;
+        border-radius: 0.5rem;
+        letter-spacing: 0.1rem;
+        color: rgba(255, 255, 255, 0.86);
+        cursor: pointer;
+        text-transform: uppercase;
+        font-weight: 600;
+        line-height: 1;
+        -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      }
+      .clear:hover {
+        background-color: var(--primary-hover);
+      }
+      .console {
+        position: relative;
+        width: 100%;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        background: var(--bg);
+        z-index: 0;
+        margin-top: 2rem;
+      }
+
+      .header {
+        font-size: 3.75rem;
+      }
+      .sub-header {
+        font-size: 2.75rem;
+        margin: 4rem 0 1rem;
+      }
+      .sub-header-content {
+        font-size: 1.75rem;
+        padding: 0 2rem;
+      }
+      .sub-header-content ul {
+        padding-left: 2rem;
+      }
+
+      .sub-header-content + ul,
+      .sub-header-content + ol {
+        padding: 1rem 4rem;
+      }
+      .sub-header-content + ul ul,
+      .sub-header-content ~ pre,
+      .sub-header-content + ol ul {
+        list-style: disc;
+        margin-left: 2rem;
+      }
+
+      .sub-header.quiz-name {
+        position: relative;
+      }
+      .sub-header.quiz-name::before {
+        content: "Click Below To Edit Quiz Name";
+        position: absolute;
+        bottom: 100%;
+        left: 0;
+        font-weight: 600;
+        font-size: 0.8rem;
+      }
+
+      #questions {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        grid-auto-rows: minmax(calc(30px + 2rem), auto);
+        grid-gap: 2rem;
+        padding: 1rem;
+        align-items: start;
+        counter-reset: questions;
+      }
+
+      .question {
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        background-color: white;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+        counter-increment: questions;
+      }
+
+      .question::before {
+        content: counter(questions);
+        font-size: 3rem;
+        font-weight: 600;
+      }
+
+      .question select {
+        display: block;
+        margin: 0 auto 1rem;
+      }
+      .question strong {
+        display: block;
+        text-align: left;
+      }
+
+      .question .answers {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-top: 1rem;
+        counter-reset: choices;
+      }
+
+      .question .answers > button:last-of-type {
+        margin-top: 0.5rem;
+      }
+
+      .answers .answer {
+        counter-increment: choices;
+        margin-bottom: 0.5rem;
+        padding: 5px calc(20px + 0.25rem) 0 calc(30px + 0.5rem);
+        padding-top: 5px;
+        position: relative;
+        min-height: 30px;
+      }
+
+      .answer::before {
+        content: counter(choices);
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        margin-right: 0.25rem;
+        color: rgba(255, 255, 255, 0.86);
+        background-color: var(--primary);
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        line-height: 1;
+      }
+
+      .question > button.remove,
+      .answer button.remove {
+        position: absolute;
+        top: 5px;
+        right: 0;
+        width: 20px;
+        height: 20px;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: transparent;
+        color: rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+      }
+
+      .question > button.remove {
+        top: 0.5rem;
+        right: 0.5rem;
+      }
+
+      .answer button.remove i,
+      .question > button.remove i {
+        font-size: 1.5rem;
+        color: inherit;
+        line-height: 1;
+      }
+
+      .question > button.remove {
+        width: 2rem;
+        height: 2rem;
+        top: 0.5rem;
+        right: 0.5rem;
+      }
+
+      .answer button.remove i {
+        font-size: 1rem;
+      }
+
+      .question > button.remove:hover,
+      .answer button.remove:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+        color: rgba(0, 0, 0, 0.86);
+      }
+
+      .add-question {
+        align-self: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="header">Application Programming Interface (API) 🤖</h1>
+    <h2 class="sub-header">What is an API?</h2>
+    <p class="sub-header-content">
+      A set of rules that define how applications or devices can communicate
+      with each other. An API can be as simple as a way to pass data around or
+      can be as complex as actually doing things not only with data but in some
+      cases, such as with the Internet of Things, an API may perform some
+      real-world function.
+    </p>
+    <h2 class="sub-header">APIs You May Know</h2>
+    <p class="sub-header-content">
+      Below are some examples of APIs that you may have seen or worked with
+      before.
+    </p>
+    <ul>
+      <li>
+        <strong>HTML5 APIs</strong>
+        <ul>
+          <li>Fetch API</li>
+          <li>Media API</li>
+          <li>Geolocation API</li>
+          <li>Drag and Drop API</li>
+          <li>Server-Sent Events (SSE) API</li>
+        </ul>
+      </li>
+    </ul>
+    <h2 class="sub-header">Web Service APIs</h2>
+    <p class="sub-header-content">
+      Web Service APIs are APIs that allow communication over a network. There
+      are 2 main types of web service APIs you will be using when developing
+      software:
+    </p>
+    <ol>
+      <li>
+        <strong>SOAP</strong> &ndash; (<strong>S</strong>imple
+        <strong>O</strong>bject <strong>A</strong>ccess
+        <strong>P</strong>rotocol) This type of API uses XML as a format to
+        transfer data. <strong>(Less Common)</strong>
+        <ul>
+          <li>Strict Rules</li>
+          <li>Advanced Security</li>
+          <li>Driven by function</li>
+          <li>Requires more bandwidth</li>
+        </ul>
+      </li>
+      <li>
+        <strong>REST</strong> &ndash; (<strong>RE</strong>presentational
+        <strong>S</strong>tate <strong>T</strong>ransfer) Not actually a
+        protocol, this is actually an architectural principle.
+        <ul>
+          <li>
+            Relaxed rules that allow flexibility to developers to define their
+            own data structure
+          </li>
+          <li>Driven by data</li>
+          <li>Requires minimum bandwidth</li>
+        </ul>
+      </li>
+    </ol>
+    <h2 class="sub-header">Other Types of APIs</h2>
+    <p class="sub-header-content">
+      There are an endless number of APIs that do a variety of things. Some of
+      these include:
+    </p>
+    <ol>
+      <li><strong>Blog</strong></li>
+      <li><strong>Chat</strong></li>
+      <li><strong>Email</strong></li>
+      <li><strong>Facial Recognition</strong></li>
+      <li><strong>Finance</strong></li>
+      <li><strong>News</strong></li>
+      <li><strong>Payments</strong></li>
+      <li><strong>Social Media</strong></li>
+      <li><strong>Sports</strong></li>
+      <li><strong>Weather</strong></li>
+      <li><strong>And Many More...</strong></li>
+    </ol>
+    <h2 class="sub-header">Using APIs</h2>
+    <p class="sub-header-content">There are a couple ways to use an API. Some APIs take an AJAX request and based on the data provided in the body will return the appropriate data you're looking for. Another way to pass the data to determine what is returned is to pass the values directly within the URL.</p>
+    <h2 class="sub-header">Weather API</h2>
+    <p class="sub-header-content">The following JSON is an example response from the URL shown below:<br/></p>
+    <pre style="font-size: 1rem; font-weight: 900; color: var(--primary)"><code>http://api.weatherapi.com/v1/current.json?key={YOUR_API_KEY}&q=Houston&aqi=no</code></pre>
+    <pre><code>{
+    "location": {
+        "name": "Houston",
+        "region": "Texas",
+        "country": "United States of America",
+        "lat": 29.76,
+        "lon": -95.36,
+        "tz_id": "America/Chicago",
+        "localtime_epoch": 1648099598,
+        "localtime": "2022-03-24 0:26"
+    },
+    "current": {
+        "last_updated_epoch": 1648098900,
+        "last_updated": "2022-03-24 00:15",
+        "temp_c": 13.3,
+        "temp_f": 55.9,
+        "is_day": 0,
+        "condition": {
+            "text": "Partly cloudy",
+            "icon": "//cdn.weatherapi.com/weather/64x64/night/116.png",
+            "code": 1003
+        },
+        "wind_mph": 4.3,
+        "wind_kph": 6.8,
+        "wind_degree": 210,
+        "wind_dir": "SSW",
+        "pressure_mb": 1017.0,
+        "pressure_in": 30.04,
+        "precip_mm": 0.0,
+        "precip_in": 0.0,
+        "humidity": 51,
+        "cloud": 50,
+        "feelslike_c": 12.7,
+        "feelslike_f": 54.9,
+        "vis_km": 16.0,
+        "vis_miles": 9.0,
+        "uv": 1.0,
+        "gust_mph": 10.7,
+        "gust_kph": 17.3
+    }
+}</code></pre>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <script></script>
+  </body>
+</html>
