@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodingPhase JS Workshop 6 &ndash; 3-24-22</title>
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css"
+    />
+    <style>
+      :root {
+        --addon-width: 24px;
+        --bg: #efefef;
+        --primary: #2196f3;
+        --primary-hover: #1981d6;
+        --text: rgba(0, 0, 0, 0.8);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      body {
+        padding: 1rem;
+        overflow: hidden;
+        overflow-y: auto;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      button {
+        appearance: none;
+        -webkit-appearance: none;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        background-color: var(--primary);
+        color: rgba(255, 255, 255, 1);
+        cursor: pointer;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05rem;
+      }
+
+      button.disabled {
+        background-color: #ccc;
+      }
+      button.success {
+        background-color: #29af4f;
+      }
+
+      .clear {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background-color: var(--primary);
+        padding: 0.5rem 0.5rem 0.35rem;
+        border-radius: 0.5rem;
+        letter-spacing: 0.1rem;
+        color: rgba(255, 255, 255, 0.86);
+        cursor: pointer;
+        text-transform: uppercase;
+        font-weight: 600;
+        line-height: 1;
+        -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      }
+      .clear:hover {
+        background-color: var(--primary-hover);
+      }
+      .console {
+        position: relative;
+        width: 100%;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        background: var(--bg);
+        z-index: 0;
+        margin-top: 2rem;
+      }
+
+      .header {
+        font-size: 3.75rem;
+      }
+      .sub-header {
+        font-size: 2.75rem;
+        margin: 4rem 0 1rem;
+      }
+      .sub-header-content {
+        font-size: 1.75rem;
+        padding: 0 2rem;
+      }
+      .sub-header-content ul {
+        padding-left: 2rem;
+      }
+
+      .sub-header-content + img {
+        display: block;
+        margin: 0 auto;
+      }
+
+      .sub-header-content + ul,
+      .sub-header-content + ol {
+        padding: 1rem 4rem;
+      }
+      .sub-header-content + ul ul,
+      .sub-header-content ~ pre,
+      .sub-header-content + ol ul {
+        list-style: disc;
+        margin-left: 2rem;
+      }
+      /* .sub-header-content + ol > li {
+        margin-bottom: 2rem;
+      } */
+      .sub-header-content + ol ul {
+        padding: 1rem 0;
+      }
+      .sub-header-content + ol pre code,
+      .sub-header-content + ol ul pre code {
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        padding: 0.5rem;
+      }
+      pre {
+        margin: 0;
+        display: inline;
+      }
+
+      pre code {
+        display: inline;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="header">Our Very Own API 🤖</h1>
+    <!-- <h2 class="sub-header">Defining our functionality</h2>
+    <p class="sub-header-content">
+        We will create an "API" to get basketball team information. The information we'll return is the name, location, record, players, and team (all of the previous combined)
+    </p>
+    <img src="./client-server-db.png" alt="Client Server Database Communication for API"/>
+    <h2 class="sub-header">Defining our data structures</h2>
+    <p class="sub-header-content">
+        <ul>
+            <li>
+                <strong>Player</strong>
+                <pre><code>
+    class Player {
+        constructor({ age, name, position, team }) {
+            this.age = age ?? null
+            this.name = name ?? null
+            this.position = position ?? null
+            this.team = team ?? "Free Agent"
+        }
+    }
+                </code></pre>
+            </li>
+            <li>
+                <strong>Team</strong>
+                <pre><code>
+    class Team {
+        constructor({ name, location, losses, players, wins }) {
+            this.name = name ?? null
+            this.location = location ?? null
+            this.losses = losses ?? 0
+            this.wins = wins ?? 0
+            this.players = players ?? []
+        }
+    }</code></pre>
+            </li>
+        </ul>
+    </p>
+    <h2 class="sub-header">Our "Database"</h2>
+    <p class="sub-header-content">Our data is stored in "database.json". This JSON is setup to mimic a typical database. The main object has properties that act as tables. I've already preloaded this data and used JSON.parse to get the JavaScript object as our "database"</p>
+    <h2 class="sub-header">Defining our routes</h2>
+    <p class="sub-header-content">We will setup five routes. Four to return the individual pieces of information and one to return the team and all of it's pieces of information.</p>
+    <ol>
+      <li><pre><code>/api/team/:teamName</code></pre></li>
+      <ul>
+        <li>This route will return <strong>all</strong> of the information for the team that has a name matching the <pre><code>:teamName</code></pre> portion of the route</li>
+      </ul>
+      <li><pre><code>/api/team/:teamName/location</code></pre></li>
+      <ul>
+        <li>This route will return the <strong>location</strong> of the team that has a name matching the <pre><code>:teamName</code></pre> portion of the route</li>
+      </ul>
+      <li><pre><code>/api/team/:teamName/name</code></pre></li>
+      <ul>
+        <li>This route will return the <strong>name</strong> of the team that has a name matching the <pre><code>:teamName</code></pre> portion of the route</li>
+      </ul>
+      <li><pre><code>/api/team/:teamName/record</code></pre></li>
+      <ul>
+        <li>This route will return the <strong>record</strong> of the team that has a name matching the <pre><code>:teamName</code></pre> portion of the route</li>
+      </ul>
+      <li><pre><code>/api/team/:teamName/players</code></pre></li>
+      <ul>
+        <li>This route will return the <strong>players</strong> of the team that has a name matching the <pre><code>:teamName</code></pre> portion of the route</li>
+      </ul>
+    </ol>
+    <p class="sub-header-content">These routes all use a concept called route parameters. Most backend frameworks allow you to do something like this where the route will match regardless of what is in the parameter slot of the route. You can then use the value of the string in that slot inside of your API route.</p> -->
+    <br />
+    <br />
+    <br />
+    <script>
+      // class Player {
+      //   constructor({ age, name, position, team }) {
+      //     this.age = age ?? null
+      //     this.name = name ?? null
+      //     this.position = position ?? null
+      //     this.team = team ?? "Free Agent"
+      //   }
+      // }
+      // class Team {
+      //   constructor({ name, location, losses, players, wins }) {
+      //     this.name = name ?? null
+      //     this.location = location ?? null
+      //     this.losses = losses ?? 0
+      //     this.wins = wins ?? 0
+      //     this.players = players ?? []
+      //   }
+      // }
+
+      // const database = JSON.parse(`{
+      //     "players": [
+      //         {
+      //             "name": "Lebron James",
+      //             "age": 37,
+      //             "position": "SF",
+      //             "team": "Lakers"
+      //         },
+      //         {
+      //             "name": "Russell Westbrook",
+      //             "age":  29,
+      //             "position": "PF",
+      //             "team": "Lakers"
+      //         },
+      //         {
+      //             "name": "Anthony Davis",
+      //             "age":  29,
+      //             "position": "PF",
+      //             "team": "Lakers"
+      //         },
+      //         {
+      //             "name": "Talen Horton-Tucker",
+      //             "age":  21,
+      //             "position": "SG",
+      //             "team": "Lakers"
+      //         },
+      //         {
+      //             "name": "Kendrick Nunn",
+      //             "age":  26,
+      //             "position": "G",
+      //             "team": "Lakers"
+      //         },
+      //         {
+      //             "name": "Malik Monk",
+      //             "age":  24,
+      //             "position": "SG",
+      //             "team": "Lakers"
+      //         }
+      //     ],
+      //     "teams": [
+      //         {
+      //             "name": "Lakers",
+      //             "location": "Los Angeles",
+      //             "losses": 44,
+      //             "wins": 38
+      //         }
+      //     ]
+      // }`)
+      // console.log("🚀 ~ file: index.html ~ line 200 ~ database", database);
+
+      // const api = (route) => {
+      //   const baseRegex = /\/*\/*\/(\w+)$/g;
+      //   const locationRegex = /\/*\/*\/(\w+)\/location/g;
+      //   const nameRegex = /\/*\/*\/(\w+)\/name/g;
+      //   const playersRegex = /\/*\/*\/(\w+)\/players/g;
+      //   const recordRegex = /\/*\/*\/(\w+)\/record/g;
+      //   switch( true ) {
+      //     case (new RegExp(locationRegex).test(route)):
+      //       console.log("🚀 ~ file: index.html ~ line 273 ~ api ~ route.match(locationRegex)", route.match(locationRegex))
+      //       var teamName = route.match(locationRegex).pop().slice(1).split('/')[0]
+      //       console.log("🚀 ~ file: index.html ~ line 205 ~ api ~ teamName", teamName)
+      //       var team = database.teams.find((team) => team.name.toLowerCase() === teamName)
+      //       return team.location;
+      //       break;
+      //     case (new RegExp(nameRegex).test(route)):
+      //       var teamName = route.match(nameRegex).pop().slice(1).split('/')[0]
+      //       console.log("🚀 ~ file: index.html ~ line 280 ~ api ~ route.match(nameRegex)", route.match(nameRegex))
+      //       console.log("🚀 ~ file: index.html ~ line 205 ~ api ~ teamName", teamName)
+      //       var team = database.teams.find((team) => team.name.toLowerCase() === teamName)
+      //       return team.name;
+      //       break;
+      //     case (new RegExp(playersRegex).test(route)):
+      //       var teamName = route.match(playersRegex).pop().slice(1).split('/')[0]
+      //       console.log("🚀 ~ file: index.html ~ line 205 ~ api ~ teamName", teamName)
+      //       var players = database.players.filter((player) => player.team.toLowerCase() === teamName)
+      //       players = database.players.map((player) => new Player({ ...player }))
+      //       return players;
+      //       break;
+      //     case (new RegExp(recordRegex).test(route)):
+      //       var teamName = route.match(recordRegex).pop().slice(1).split('/')[0]
+      //       var team = database.teams.find((team) => team.name.toLowerCase() === teamName)
+      //       var { losses, wins } = team;
+      //       return {
+      //         losses,
+      //         wins,
+      //       }
+      //       break;
+      //     case (new RegExp(baseRegex).test(route)):
+      //       var teamName = route.match(baseRegex).pop().slice(1)
+      //       var team = database.teams.find((team) => team.name.toLowerCase() === teamName)
+      //       team.players = database.players.filter((player) => player.team.toLowerCase() === teamName)
+      //       team.players = team.players.map((player) => new Player({ ...player }))
+      //       team = new Team({ ...team })
+      //       return team;
+      //       break;
+      //   }
+      // }
+    </script>
+  </body>
+</html>
