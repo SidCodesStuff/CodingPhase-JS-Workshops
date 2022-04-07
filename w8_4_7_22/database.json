@@ -1,0 +1,48 @@
+{
+    "players": [
+        {
+            "name": "Lebron James",
+            "age": 37,
+            "position": "SF",
+            "team": "Lakers"
+        },
+        {
+            "name": "Russell Westbrook",
+            "age":  29,
+            "position": "PF",
+            "team": "Lakers"
+        },
+        {
+            "name": "Anthony Davis",
+            "age":  29,
+            "position": "PF",
+            "team": "Lakers"
+        },
+        {
+            "name": "Talen Horton-Tucker",
+            "age":  21,
+            "position": "SG",
+            "team": "Lakers"
+        },
+        {
+            "name": "Kendrick Nunn",
+            "age":  26,
+            "position": "G",
+            "team": "Lakers"
+        },
+        {
+            "name": "Malik Monk",
+            "age":  24,
+            "position": "SG",
+            "team": "Lakers"
+        }
+    ],
+    "teams": [
+        {
+            "name": "Lakers",
+            "location": "Los Angeles",
+            "losses": 44,
+            "wins": 38
+        }
+    ]
+}

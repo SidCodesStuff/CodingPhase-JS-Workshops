@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodingPhase JS Workshop 6 &ndash; 3-24-22</title>
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css"
+    />
+    <style>
+      :root {
+        --addon-width: 24px;
+        --bg: #efefef;
+        --primary: #2196f3;
+        --primary-hover: #1981d6;
+        --text: rgba(0, 0, 0, 0.8);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      body {
+        padding: 1rem;
+        overflow: hidden;
+        overflow-y: auto;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      button {
+        appearance: none;
+        -webkit-appearance: none;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        background-color: var(--primary);
+        color: rgba(255, 255, 255, 1);
+        cursor: pointer;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05rem;
+      }
+
+      button.disabled {
+        background-color: #ccc;
+      }
+      button.success {
+        background-color: #29af4f;
+      }
+
+      .clear {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background-color: var(--primary);
+        padding: 0.5rem 0.5rem 0.35rem;
+        border-radius: 0.5rem;
+        letter-spacing: 0.1rem;
+        color: rgba(255, 255, 255, 0.86);
+        cursor: pointer;
+        text-transform: uppercase;
+        font-weight: 600;
+        line-height: 1;
+        -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      }
+      .clear:hover {
+        background-color: var(--primary-hover);
+      }
+      .console {
+        position: relative;
+        width: 100%;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        background: var(--bg);
+        z-index: 0;
+        margin-top: 2rem;
+      }
+
+      .header {
+        font-size: 3.75rem;
+      }
+      .sub-header {
+        font-size: 2.75rem;
+        margin: 4rem 0 1rem;
+      }
+      .sub-header-content {
+        font-size: 1.75rem;
+        padding: 0 2rem;
+      }
+      .sub-header-content ul {
+        padding-left: 2rem;
+      }
+
+      .sub-header-content + img {
+        display: block;
+        margin: 0 auto;
+      }
+
+      .sub-header-content + ul,
+      .sub-header-content + ol {
+        padding: 1rem 4rem;
+      }
+      .sub-header-content + ul ul,
+      .sub-header-content ~ pre,
+      .sub-header-content + ol ul {
+        list-style: disc;
+        margin-left: 2rem;
+      }
+      /* .sub-header-content + ol > li {
+        margin-bottom: 2rem;
+      } */
+      .sub-header-content + ol ul {
+        padding: 1rem 0;
+      }
+      .sub-header-content + ul pre code,
+      .sub-header-content + ol pre code,
+      .sub-header-content + ol ul pre code {
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+      }
+      pre {
+        display: inline;
+      }
+
+      pre code {
+        display: inline-block;
+        margin: 0.5rem 0 2rem;
+      }
+
+      span pre code {
+        margin-bottom: 0.5rem;
+      }
+
+      .btns {
+        position: fixed;
+        top: 5vh;
+        right: 0;
+        background: red;
+        border-top-left-radius: 1rem;
+        border-bottom-left-radius: 1rem;
+        padding: 1rem;
+        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.7));
+        display: flex;
+        flex-direction: column;
+      }
+      .btns button:not(:last-child) {
+        margin-bottom: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="header">The Terminal 💻</h1>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <!-- <h2 class="sub-header">Graphical User Interface (GUI)(Gooey)</h2>
+    <p class="sub-header-content">An application that allows you to do tasks through a visual representation instead of using code to perform them.</p> -->
+    <!-- <h2 class="sub-header">Speaking machine</h2>
+    <p class="sub-header-content">
+        Those applications perfom actions defined by some underlying code. These actions can include many things and most commonly perform one or more of the following functions creating, deleting, and editing files or directories. The terminal is our way of performing these underlying functions by using code.
+    </p> -->
+    <!-- <h2 class="sub-header">Setting Up Your Terminal</h2>
+    <p class="sub-header-content">To setup your terminal we'll need to do a couple things. If you're on a Mac, you've already got a terminal installed for what we'll be doing. If you're on Windows we'll be setting up Git Bash. This will give us a unix-based terminal that will behave the same as the terminal on Mac.</p>
+    <ul>
+      <li>
+        <strong>
+          <p>Git + Git Bash</p>
+        </strong>
+        <span>Once installed, run <pre><code>git help</code></pre> to confirm that git was installed correctly.</span>
+        <pre><code>https://git-scm.com/downloads</code></pre>
+      </li>
+      <li>
+        <strong>
+          <p>Github Command Line Interface (CLI)</p>
+        </strong>
+        <pre><code>https://cli.github.com/manual/installation</code></pre>
+      </li>
+      <li>
+        <strong>
+          <p>Node.JS (includes NPM)</p>
+        </strong>
+        <pre><code>https://nodejs.org/en/download/</code></pre>
+      </li>
+    </ul> -->
+    <!-- <h2 class="sub-header">Commands You Should Know</h2>
+    <p class="sub-header-content">
+        <ul>
+            <li>
+                <pre><code>cd</code></pre>
+                Change Directory
+                <ul>
+                    <li>
+                        <pre><code>~</code></pre>
+                        Go to "home" directory
+                    </li>
+                    <li>
+                        <pre><code>/</code></pre>
+                        Go to "root" directory
+                    </li>
+                    <li>
+                        <pre><code>..</code></pre>
+                        Go back one directory (go up to parent directory)
+                        <ul>
+                            <li>
+                                Can be chained together to go back multiple levels
+                                <pre><code>../../</code></pre>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <pre><code>ls</code></pre>
+                List files in your current directory
+                <ul>
+                    <li>
+                        <pre><code>-a</code></pre>
+                        Show all files (includes hidden files)
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <pre><code>mkdir</code></pre>
+                Make Directory
+                <ul>
+                    <li>
+                        <pre><code>-p</code></pre>
+                        Create nested directories dynamically
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <pre><code>git<command></code></pre>
+                Git command 
+                <ul>
+                    <li>
+                        <pre><code>clone</code></pre>
+                        Create a copy of a repository on your machine
+                    </li>
+                    <li>
+                        <pre><code>commit</code></pre>
+                        Commit code changes to repository
+                    </li>
+                    <li>
+                        <pre><code>pull</code></pre>
+                        From inside a Git repository, pull down the latest changes that have been pushed to the repository.
+                    </li>
+                    <li>
+                        <pre><code>push</code></pre>
+                        After committing your changes, push those changes to the repository to make them available for others to pull down.
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <pre><code>code</code></pre>
+                VS Code command that allows you to open files/directories
+                <ul>
+                    <li>
+                        <pre><code>.</code></pre>
+                        Open current directory in VS Code
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </p> -->
+    <!-- <div class="btns">
+      <button class="team">Team</button>
+      <button class="team-location">Team Location</button>
+      <button class="team-name">Team Name</button>
+      <button class="team-players">Team Players</button>
+      <button class="team-record">Team Record</button>
+    </div> -->
+    <br />
+    <br />
+    <br />
+    <script>
+      class Player {
+        constructor({ age, name, position, team }) {
+          this.age = age ?? null
+          this.name = name ?? null
+          this.position = position ?? null
+          this.team = team ?? "Free Agent"
+        }
+      }
+      class Team {
+        constructor({ name, location, losses, players, wins }) {
+          this.name = name ?? null
+          this.location = location ?? null
+          this.losses = losses ?? 0
+          this.wins = wins ?? 0
+          this.players = players ?? []
+        }
+      }
+
+      const database = JSON.parse(`{
+          "players": [
+              {
+                  "name": "Lebron James",
+                  "age": 37,
+                  "position": "SF",
+                  "team": "Lakers"
+              },
+              {
+                  "name": "Russell Westbrook",
+                  "age":  29,
+                  "position": "PF",
+                  "team": "Lakers"
+              },
+              {
+                  "name": "Anthony Davis",
+                  "age":  29,
+                  "position": "PF",
+                  "team": "Lakers"
+              },
+              {
+                  "name": "Talen Horton-Tucker",
+                  "age":  21,
+                  "position": "SG",
+                  "team": "Lakers"
+              },
+              {
+                  "name": "Kendrick Nunn",
+                  "age":  26,
+                  "position": "G",
+                  "team": "Lakers"
+              },
+              {
+                  "name": "Malik Monk",
+                  "age":  24,
+                  "position": "SG",
+                  "team": "Lakers"
+              }
+          ],
+          "teams": [
+              {
+                  "name": "Lakers",
+                  "location": "Los Angeles",
+                  "losses": 44,
+                  "wins": 38
+              }
+          ]
+      }`)
+
+      const getTeamBtn = document.querySelector('.team')
+      const getTeamLocationBtn = document.querySelector('.team-location')
+      const getTeamNameBtn = document.querySelector('.team-name')
+      const getTeamPlayersBtn = document.querySelector('.team-players')
+      const getTeamRecordBtn = document.querySelector('.team-record')
+      const getTeamLocation = async () => {
+        let res = await fetch('http://localhost:3000/api/team/lakers/location')
+        res = await res.json();
+        console.log("Res:", res);
+      }
+      const getTeamName = async () => {
+        let res = await fetch('http://localhost:3000/api/team/lakers/name')
+        res = await res.json();
+        console.log("Res:", res);
+      }
+      const getTeamPlayers = async () => {
+        let res = await fetch('http://localhost:3000/api/team/lakers/players')
+        res = await res.json();
+        console.log("Res:", res);
+      }
+      const getTeamRecord = async () => {
+        let res = await fetch('http://localhost:3000/api/team/lakers/record')
+        res = await res.json();
+        console.log("Res:", res);
+      }
+      const getTeam = async () => {
+        let res = await fetch('http://localhost:3000/api/team/lakers')
+        res = await res.json();
+        console.log("Res:", res);
+      }
+
+      getTeamBtn.addEventListener('click', getTeam)
+      getTeamLocationBtn.addEventListener('click', getTeamLocation)
+      getTeamNameBtn.addEventListener('click', getTeamName)
+      getTeamPlayersBtn.addEventListener('click', getTeamPlayers)
+      getTeamRecordBtn.addEventListener('click', getTeamRecord)
+    </script>
+  </body>
+</html>
