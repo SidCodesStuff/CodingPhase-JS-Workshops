@@ -1,0 +1,8 @@
+Git + Git Bash
+https://git-scm.com/downloads
+
+Github CLI
+https://cli.github.com/manual/installation
+
+Node JS
+https://nodejs.org/en/download/
