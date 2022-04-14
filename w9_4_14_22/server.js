@@ -25,8 +25,8 @@ class Team {
 var connection = mysql.createConnection({
   host: "localhost",
   port: 8889,
-  user: "root",
-  password: "",
+  user: "admin",
+  password: "vXdgwSjVjBdHKsEc",
   database: "codingphase",
 });
 
