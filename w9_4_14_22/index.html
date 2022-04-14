@@ -82,6 +82,12 @@
         margin-top: 2rem;
       }
 
+      body > img {
+          width: 100%;
+          height: auto;
+          border: 3px solid #006e90;
+      }
+
       .header {
         font-size: 3.75rem;
         display: inline-flex;
@@ -150,7 +156,7 @@
         position: fixed;
         top: 5vh;
         right: 0;
-        background: red;
+        background: white;
         border-top-left-radius: 1rem;
         border-bottom-left-radius: 1rem;
         padding: 1rem;
@@ -160,6 +166,9 @@
       }
       .btns button:not(:last-child) {
         margin-bottom: 1rem;
+      }
+      .sub-header-content + ul {
+          list-style: disc;
       }
     </style>
   </head>
@@ -175,12 +184,128 @@
     <p class="sub-header-content">There are many types of databases, similar to programming languages or frameworks there are always new tools popping up. However, for the most part all of these projects will be a take on one of 2 general database paradigms.</p>
     <h2 class="sub-header">SQL VS NoSQL</h2>
     <p class="sub-header-content">These two types of database are Relational (SQL) and Non-Relational (NoSQL) databases.</p>
-    <h2 class="sub-header">Relational Databases</h2>
-    <p class="sub-header-content">Information is stored in tables. Tables are made up of rows and columns. We can use specific keys to connect information across tables. This database is great for applications that have a pretty rigidly defined data structure that will be consistent across all items. This means that, once defined, the columns for the tables won't be changed frequently. Allowing for consistent data storage.</p>
+    <br/>
+    <br/>
+    <img src="./sql-vs-nosql.png" alt=""/>
     <h2 class="sub-header">What is SQL?</h2>
-    <p class="sub-header-content">SQL is an acronym that stands for Structrued Query Language. This is the language that is used to communicate with relational databases. It is pronounced SQL or "sequel" conversationally. There are a few popular types of SQL servers such as MySQL, MSSQL, and PostsgreSQL</p>
+    <p class="sub-header-content">SQL is an acronym that stands for Structrued Query Language. This is the language that is used to communicate with relational databases. It is pronounced SQL or "sequel" conversationally. There are a few popular types of SQL servers such as MySQL, MSSQL, and PostgreSQL.</p>
+    <h2 class="sub-header">Relational Databases</h2>
+    <p class="sub-header-content">Information is stored in tables. Tables are made up of rows and columns. We can use specific keys to connect information across tables. This database is great for applications that have a pretty rigidly defined data structure that will be consistent across all items. This means that, once defined, the columns for the tables won't be changed frequently. Relational databases are <strong>ACID</strong> compliant and so these are the types of databases used by banks and companies that need their information to remain consistent across tables.</p>
+    <h2 class="sub-header">ACID</h2>
+    <p class="sub-header-content">
+        <ul>
+            <li>
+                <strong class="sub-header-content">Atomic</strong>
+                <p class="sub-header-content">All operations in a transaction must succeed or all of the operations will be reverted.</p>
+            </li>
+            <li>
+                <strong class="sub-header-content">Consistent</strong>
+                <p class="sub-header-content">On the completion of a transation, the database is structurally sound</p>
+            </li>
+            <li>
+                <strong class="sub-header-content">Isolated</strong>
+                <p class="sub-header-content">Means that transactions are not competing with one another, and instead run sequentially.</p>
+            </li>
+            <li>
+                <strong class="sub-header-content">Durable</strong>
+                <p class="sub-header-content">The result of transactions are permanent even when a failure occurs</p>
+            </li>
+        </ul>
+    </p>
+    <p class="sub-header-content">
+        <strong>TL;DR</strong>
+        <p class="sub-header-content">Some applications require data to be consistent and up to date, such as banks or companies that have to keep transaction logs. This can be achieved by using a relational database because of its <strong>ACID</strong> compliance</p>
+    </p>
     <h2 class="sub-header">Non-Relational Databases</h2>
+    <p class="sub-header-content">In contrast to relational databases, non-relational data is less structured. Instead of being stored in tables it is stored in collections. These collections contain documents and these documents can be of any structure and are not beholden to a specific table pattern. These documents CAN contain all of the same data but NoSQL allows you the flexibility to only store what is necessary for a given piece of data. Most often used when working with large data sets. Especially when working with complex/diverse data.</p>
     <h2 class="sub-header">Environment Setup</h2>
+    <p class="sub-header-content">
+        <ul>
+            <li>
+                <strong class="sub-header-content">MAMP</strong>
+            </li>
+        </ul>
+    </p>
     <h2 class="sub-header">Data Population</h2>
+    <p class="sub-header-content">
+        <ul>
+            <li>
+                <strong>Team Population</strong>
+                <pre><code>INSERT INTO codingphase.teams (id, name, location, losses, wins) VALUES (1, 'Lakers', 'Los Angeles', 44, 38);</code></pre>
+            </li>
+            <li>
+                <strong>Player Population</strong><br/>
+                <pre><code>    INSERT INTO codingphase.players
+    (id, name, age, `position`, team_id)
+    VALUES(1, 'Lebron James', 37, 'F', 1);
+
+    INSERT INTO codingphase.players
+    (id, name, age, `position`, team_id)
+    VALUES(2, 'Russell Westbrook', 29, 'PG', 1);
+
+    INSERT INTO codingphase.players
+    (id, name, age, `position`, team_id)
+    VALUES(3, 'Anthony Davis', 29, 'PF', 1);
+
+    INSERT INTO codingphase.players
+    (id, name, age, `position`, team_id)
+    VALUES(4, 'Talen Horton-Tucker', 21, 'SG', 1);
+
+    INSERT INTO codingphase.players
+    (id, name, age, `position`, team_id)
+    VALUES(5, 'Kendrick Nunn', 26, 'G', 1);
+
+    INSERT INTO codingphase.players
+    (id, name, age, `position`, team_id)
+    VALUES(6, 'Malik Monk', 24, 'SG', 1);
+                </code></pre>
+            </li>
+        </ul>
+    </p>
+    <div class="btns">
+        <button class="team">Team</button>
+        <button class="team-location">Team Location</button>
+        <button class="team-name">Team Name</button>
+        <button class="team-players">Team Players</button>
+        <button class="team-record">Team Record</button>
+    </div>
+    <script>
+      const getTeamBtn = document.querySelector('.team')
+      const getTeamLocationBtn = document.querySelector('.team-location')
+      const getTeamNameBtn = document.querySelector('.team-name')
+      const getTeamPlayersBtn = document.querySelector('.team-players')
+      const getTeamRecordBtn = document.querySelector('.team-record')
+      const getTeamLocation = async () => {
+        let res = await fetch('http://localhost:3000/api/team/lakers/location')
+        res = await res.json();
+        console.log("Res:", res);
+      }
+      const getTeamName = async () => {
+        let res = await fetch('http://localhost:3000/api/team/lakers/name')
+        res = await res.json();
+        console.log("Res:", res);
+      }
+      const getTeamPlayers = async () => {
+        let res = await fetch('http://localhost:3000/api/team/lakers/players')
+        res = await res.json();
+        console.log("Res:", res);
+      }
+      const getTeamRecord = async () => {
+        let res = await fetch('http://localhost:3000/api/team/lakers/record')
+        res = await res.json();
+        console.log("Res:", res);
+      }
+      const getTeam = async () => {
+        let res = await fetch('http://localhost:3000/api/team/lakers')
+        res = await res.json();
+        console.log("Res:", res);
+      }
+
+      getTeamBtn.addEventListener('click', getTeam)
+      getTeamLocationBtn.addEventListener('click', getTeamLocation)
+      getTeamNameBtn.addEventListener('click', getTeamName)
+      getTeamPlayersBtn.addEventListener('click', getTeamPlayers)
+      getTeamRecordBtn.addEventListener('click', getTeamRecord)
+    </script>
   </body>
 </html>
