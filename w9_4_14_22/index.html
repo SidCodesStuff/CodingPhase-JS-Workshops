@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodingPhase JS Workshop 9 &ndash; 4-14-22</title>
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css"
+    />
+    <style>
+      :root {
+        --addon-width: 24px;
+        --bg: #efefef;
+        --primary: #2196f3;
+        --primary-hover: #1981d6;
+        --text: rgba(0, 0, 0, 0.8);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      body {
+        padding: 1rem;
+        overflow: hidden;
+        overflow-y: auto;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      button {
+        appearance: none;
+        -webkit-appearance: none;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        background-color: var(--primary);
+        color: rgba(255, 255, 255, 1);
+        cursor: pointer;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05rem;
+      }
+
+      button.disabled {
+        background-color: #ccc;
+      }
+      button.success {
+        background-color: #29af4f;
+      }
+
+      .clear {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background-color: var(--primary);
+        padding: 0.5rem 0.5rem 0.35rem;
+        border-radius: 0.5rem;
+        letter-spacing: 0.1rem;
+        color: rgba(255, 255, 255, 0.86);
+        cursor: pointer;
+        text-transform: uppercase;
+        font-weight: 600;
+        line-height: 1;
+        -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      }
+      .clear:hover {
+        background-color: var(--primary-hover);
+      }
+      .console {
+        position: relative;
+        width: 100%;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        background: var(--bg);
+        z-index: 0;
+        margin-top: 2rem;
+      }
+
+      .header {
+        font-size: 3.75rem;
+        display: inline-flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin: 4rem auto 0;
+      }
+      .header svg, .header img {
+          height: 7rem;
+          width: auto;
+      }
+      .sub-header {
+        font-size: 2.75rem;
+        margin: 4rem 0 1rem;
+      }
+      .sub-header-content {
+        font-size: 1.75rem;
+        padding: 0 2rem;
+      }
+      .sub-header-content ul {
+        padding-left: 2rem;
+      }
+
+      .sub-header-content + img {
+        display: block;
+        margin: 0 auto;
+      }
+
+      .sub-header-content + ul,
+      .sub-header-content + ol {
+        padding: 1rem 4rem;
+      }
+      .sub-header-content + ul ul,
+      .sub-header-content ~ pre,
+      .sub-header-content + ol ul {
+        list-style: disc;
+        margin-left: 2rem;
+      }
+      /* .sub-header-content + ol > li {
+        margin-bottom: 2rem;
+      } */
+      .sub-header-content + ol ul {
+        padding: 1rem 0;
+      }
+      .sub-header-content + ul pre code,
+      .sub-header-content + ol pre code,
+      .sub-header-content + ol ul pre code {
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+      }
+      pre {
+        display: inline;
+      }
+
+      pre code {
+        display: inline-block;
+        margin: 0.5rem 0 2rem;
+      }
+
+      span pre code {
+        margin-bottom: 0.5rem;
+      }
+
+      .btns {
+        position: fixed;
+        top: 5vh;
+        right: 0;
+        background: red;
+        border-top-left-radius: 1rem;
+        border-bottom-left-radius: 1rem;
+        padding: 1rem;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.7));
+        display: flex;
+        flex-direction: column;
+      }
+      .btns button:not(:last-child) {
+        margin-bottom: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="header">Databases <img src="./file-cabinet.svg" alt="File Cabinet" />📥</h1>
+    <h2 class="sub-header">What Are Databases?</h2>
+    <p class="sub-header-content">A database is a way to store data so that you can retrieve it or perform functions based on it.</p>
+    <h2 class="sub-header">Databases In Hiding</h2>
+    <p class="sub-header-content">You've most certainly interacted with databases whether you realize it or not. Almost every website, app, and company has a database that it relies on to store information. If you've signed up for a rewards account you're in sombebody's database. If you've created a profile on a website all of that information is stored in their database.</p>
+    <h2 class="sub-header">Why Use Databases?</h2>
+    <p class="sub-header-content">Now that you're aware of the things that are databases all around you, you can probably imagine the many use cases for storing information. Much like APIs can expand what you're capable of building, a database can take things up a notch in the complexity of what you can build. Most importantly, you can store information beyond the user closing the browser/app.</p>
+    <h2 class="sub-header">Types of Databases</h2>
+    <p class="sub-header-content">There are many types of databases, similar to programming languages or frameworks there are always new tools popping up. However, for the most part all of these projects will be a take on one of 2 general database paradigms.</p>
+    <h2 class="sub-header">SQL VS NoSQL</h2>
+    <p class="sub-header-content">These two types of database are Relational (SQL) and Non-Relational (NoSQL) databases.</p>
+    <h2 class="sub-header">Relational Databases</h2>
+    <p class="sub-header-content">Information is stored in tables. Tables are made up of rows and columns. We can use specific keys to connect information across tables. This database is great for applications that have a pretty rigidly defined data structure that will be consistent across all items. This means that, once defined, the columns for the tables won't be changed frequently. Allowing for consistent data storage.</p>
+    <h2 class="sub-header">What is SQL?</h2>
+    <p class="sub-header-content">SQL is an acronym that stands for Structrued Query Language. This is the language that is used to communicate with relational databases. It is pronounced SQL or "sequel" conversationally. There are a few popular types of SQL servers such as MySQL, MSSQL, and PostsgreSQL</p>
+    <h2 class="sub-header">Non-Relational Databases</h2>
+    <h2 class="sub-header">Environment Setup</h2>
+    <h2 class="sub-header">Data Population</h2>
+  </body>
+</html>
