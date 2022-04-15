@@ -61,16 +61,15 @@ app.get("/api/team/:teamName", (req, res) => {
               "🚀 ~ file: server.js ~ line 78 ~ app.get ~ team",
               team
             );
+            res.json({
+              status: 200,
+              success: true,
+              team,
+            });
           }
         );
       }
     );
-
-    res.json({
-      status: 200,
-      success: true,
-      team,
-    });
   } catch (error) {
     res.json({
       status: 200,
