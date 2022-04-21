@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodingPhase JS Workshop 9 &ndash; 4-14-22</title>
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css"
+    />
+    <style>
+      :root {
+        --addon-width: 24px;
+        --bg: #efefef;
+        --primary: #2196f3;
+        --primary-hover: #1981d6;
+        --text: rgba(0, 0, 0, 0.8);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      body {
+        padding: 1rem;
+        overflow: hidden;
+        overflow-y: auto;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      button {
+        appearance: none;
+        -webkit-appearance: none;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        background-color: var(--primary);
+        color: rgba(255, 255, 255, 1);
+        cursor: pointer;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05rem;
+      }
+
+      button.disabled {
+        background-color: #ccc;
+      }
+      button.success {
+        background-color: #29af4f;
+      }
+
+      .clear {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background-color: var(--primary);
+        padding: 0.5rem 0.5rem 0.35rem;
+        border-radius: 0.5rem;
+        letter-spacing: 0.1rem;
+        color: rgba(255, 255, 255, 0.86);
+        cursor: pointer;
+        text-transform: uppercase;
+        font-weight: 600;
+        line-height: 1;
+        -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      }
+      .clear:hover {
+        background-color: var(--primary-hover);
+      }
+      .console {
+        position: relative;
+        width: 100%;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        background: var(--bg);
+        z-index: 0;
+        margin-top: 2rem;
+      }
+
+      body > img {
+        width: 100%;
+        height: auto;
+        border: 3px solid #006e90;
+      }
+
+      .header {
+        font-size: 3.75rem;
+        display: inline-flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin: 4rem auto 0;
+      }
+      .header svg,
+      .header img {
+        height: 7rem;
+        width: auto;
+      }
+      .sub-header {
+        font-size: 2.75rem;
+        margin: 4rem 0 1rem;
+      }
+      .sub-header-content {
+        font-size: 1.75rem;
+        padding: 0 2rem;
+      }
+      .sub-header-content ul {
+        padding-left: 2rem;
+      }
+
+      .sub-header-content + img {
+        display: block;
+        margin: 0 auto;
+      }
+
+      .sub-header-content + ul,
+      .sub-header-content + ol {
+        padding: 1rem 4rem;
+      }
+      .sub-header-content + ul ul,
+      .sub-header-content ~ pre,
+      .sub-header-content + ol ul {
+        list-style: disc;
+        margin-left: 2rem;
+      }
+      /* .sub-header-content + ol > li {
+        margin-bottom: 2rem;
+      } */
+      .sub-header-content + ol ul {
+        padding: 1rem 0;
+      }
+      .sub-header-content + ul pre code,
+      .sub-header-content + ol pre code,
+      .sub-header-content + ol ul pre code {
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+      }
+      pre {
+        display: inline;
+      }
+
+      pre code {
+        display: inline-block;
+        margin: 0.5rem 0 2rem;
+      }
+
+      span pre code {
+        margin-bottom: 0.5rem;
+      }
+
+      .btns {
+        position: fixed;
+        top: 5vh;
+        right: 0;
+        background: white;
+        border-top-left-radius: 1rem;
+        border-bottom-left-radius: 1rem;
+        padding: 1rem;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.7));
+        display: flex;
+        flex-direction: column;
+      }
+      .btns button:not(:last-child) {
+        margin-bottom: 1rem;
+      }
+      .sub-header-content + ul {
+        list-style: disc;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="header">Database Security</h1>
+    <h2 class="sub-header">How to protect your data</h2>
+    <p class="sub-header-content">
+      When setting up a database don't use the default user and password.
+      Instead setup an admin account and generate a random password that
+      shouldn't be used anywhere else.
+    </p>
+    <h2 class="sub-header">Use UUID instead of auto increment</h2>
+    <p class="sub-header-content">
+      When making a table, instead of using an auto incrementing column as the
+      primary key, use a UUID. This isn't required but in the case that your
+      code may be exploitable, an auto incrementing column is easier to attack.
+      They can just run a for loop and run malicious code for each row on the
+      table. With a UUID they can't know what the next ID is, even if they have
+      an ID to start with.
+    </p>
+    <h2 class="sub-header">Never store plain text passwords</h2>
+    <p class="sub-header-content">
+      When storing passwords, you have to be sure to only store encrypted
+      passwords. That way if your database is compromised your user's
+      information will still be as protected as possible. There are different
+      types of hashing algorithms but the recommended most secure currently is
+      bcrypt hashing. Depending on your backend language there are different
+      ways to achieve bcrypt hashing. If you're using Node, you'll be using the
+      "bcrypt" package from NPM.
+    </p>
+    <h2 class="sub-header">SQL Injection</h2>
+    <p class="sub-header-content">
+      This is a form of attack where a malicious user submits SQL into a form or
+      input on your website. If this user input isn't properly "sanitized" it
+      can result in that SQL code being run on your server. This can allow for
+      frontend users to delete your database, tables, or rows of information.
+      Also, they can run any number of SQL queries so they could grant their
+      user account admin access and many other things can go wrong.
+    </p>
+    <h1 class="header">Application Security</h1>
+    <h2 class="sub-header">Sanitizing User Input</h2>
+    <p class="sub-header-content">
+      Along with SQL injection, there can be malicious user input on the
+      frontend. The solution for both types of malicious input is "sanitizing"
+      the data. This just means that we will make sure the user's input is safe
+      or that we will format the user's input in a way that can't hurt us even
+      if it isn't safe. There are a few methods of sanitizing inputs. Some of
+      which you may already be implementing. The methods are:
+    </p>
+    <ul>
+      <li>
+        <strong>Disallowing/Validating Content</strong>
+        <ul>
+          <li>Preventing a user from submitting input based on pre-defined validation logic or if you are going the route of disallowing, prevent submission based on a whitelist or blacklist. Whitelists contain inputs that should be allowed and blacklists contain inputs that should not be allowed.</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Escaping</strong>
+        <ul>
+          <li>To prevent user input from being ran inside frontend code, you can "escape" the user's input. This will convert all of the tags that may exist in the input. So if the user has submitted some HTML the code they submitted will show up as text on your website instead of being rendered as HTML.</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Cleaning</strong>
+        <ul>
+          <li>A combination of disallowing and escaping. This is the process of escaping all tags except for those that you decide are okay to render as-is. The tags you wish to allow are stored in a whitelist and you check a user's input against that whitelist to determine what should and shouldn't be escaped.</li>
+        </ul>
+      </li>
+    </ul>
+    <h2 class="sub-header">Environment Variables</h2>
+    <p class="sub-header-content">In addition to using secure passwords for your accounts, especially those that protect data such as your database password, you should be storing any sensitive information for your backend code within a .env file. This is a file which uses key-value pairs to define pieces of information that your application needs to have available but should never show up in the code. For example, API keys, passwords, secret keys, etc. should always be stored in a .env file.</p>
+    <h2 class="sub-header">Protecting your Environment Variables</h2>
+    <p class="sub-header-content">We use environment variables to protect our data from being shown in our code but we have to go a step further to be sure our data isn't being passed around accidentally. You should never show your api keys, passwords, etc. on a live stream. That's the first thing people think of when it comes to accidentally sharing data. However, the more common way your data can be exploited is by not properly excluding your .env file from your version control repository. You must add .env to your .gitignore file to keep your environment variables from being made public.</p>
+    <h2 class="sub-header">Creating Documentation For Our API</h2>
+    <p class="sub-header-content">We will be setting up a basic markdown file to document the capabilities and instructions for the API we implemented last week.</p>
+    <!-- <div class="btns">
+        <button class="team">Team</button>
+        <button class="team-location">Team Location</button>
+        <button class="team-name">Team Name</button>
+        <button class="team-players">Team Players</button>
+        <button class="team-record">Team Record</button>
+    </div> -->
+    <script>
+      const getTeamBtn = document.querySelector(".team");
+      const getTeamLocationBtn = document.querySelector(".team-location");
+      const getTeamNameBtn = document.querySelector(".team-name");
+      const getTeamPlayersBtn = document.querySelector(".team-players");
+      const getTeamRecordBtn = document.querySelector(".team-record");
+      const getTeamLocation = async () => {
+        let res = await fetch("http://localhost:3000/api/team/lakers/location");
+        res = await res.json();
+        console.log("Res:", res);
+      };
+      const getTeamName = async () => {
+        let res = await fetch("http://localhost:3000/api/team/lakers/name");
+        res = await res.json();
+        console.log("Res:", res);
+      };
+      const getTeamPlayers = async () => {
+        let res = await fetch("http://localhost:3000/api/team/lakers/players");
+        res = await res.json();
+        console.log("Res:", res);
+      };
+      const getTeamRecord = async () => {
+        let res = await fetch("http://localhost:3000/api/team/lakers/record");
+        res = await res.json();
+        console.log("Res:", res);
+      };
+      const getTeam = async () => {
+        let res = await fetch("http://localhost:3000/api/team/lakers");
+        res = await res.json();
+        console.log("Res:", res);
+      };
+
+      getTeamBtn.addEventListener("click", getTeam);
+      getTeamLocationBtn.addEventListener("click", getTeamLocation);
+      getTeamNameBtn.addEventListener("click", getTeamName);
+      getTeamPlayersBtn.addEventListener("click", getTeamPlayers);
+      getTeamRecordBtn.addEventListener("click", getTeamRecord);
+    </script>
+  </body>
+</html>
