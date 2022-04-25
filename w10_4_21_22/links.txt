@@ -1,5 +1,0 @@
-DBeaver
-https://dbeaver.io/
-
-MAMP
-https://www.mamp.info/en/mamp/
