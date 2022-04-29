@@ -8,12 +8,12 @@
 
 Alternatively, for H1 and H2, an underline-ish style:
 
-## Alt-H2
+## Alt-H2 
 ---
 ### Alt-H3
----
+***
 #### Alt-H4
----
+___
 ##### Alt-H5
 ---
 ###### Alt-H6
@@ -38,13 +38,14 @@ Strikethrough uses two tildes. ~~Scratch this.~~
 1. First ordered list item
 2. Another item
     * Unordered sub-list. 
+    - Test
+    + Test 2
 1. Actual numbers don't matter, just that it's a number
     1. Ordered sub-list
 8. And another item.
 
 To have a line break without a paragraph, you will need to use two trailing spaces.  
 Note that this line is separate, but within the same paragraph.
-
 (This is contrary to the typical GFM line break behaviour, where trailing spaces are not required.)
 
 * Unordered list can use asterisks
@@ -92,7 +93,7 @@ Reference-style:
 <br>
 
 # Code/Syntax Highlighting
-Inline `code` has `back-ticks around` it.
+When using our API the `variable` variable is blah blah has `back-ticks around` it.
 
 Block Code has triple backticks
 ```javascript
@@ -157,7 +158,7 @@ Quote break.
   <dd>Is something people use sometimes.</dd>
 
   <dt>Markdown in HTML</dt>
-  <dd>Does *not* work **very** well. Use <strong>HTML</strong> <em>tags</em>.</dd>
+  <dd>Does <b>not</b> work **very** well. Use <strong>HTML</strong> <em>tags</em>.</dd>
 </dl>
 
 <br>
