@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodingPhase JS Workshop 9 &ndash; 4-14-22</title>
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css"
+    />
+    <style>
+      :root {
+        --addon-width: 24px;
+        --bg: #efefef;
+        --primary: #2196f3;
+        --primary-hover: #1981d6;
+        --text: rgba(0, 0, 0, 0.8);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      body {
+        padding: 1rem;
+        overflow: hidden;
+        overflow-y: auto;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      button,
+      .btn {
+        appearance: none;
+        -webkit-appearance: none;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        background-color: var(--primary);
+        color: rgba(255, 255, 255, 1);
+        cursor: pointer;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05rem;
+      }
+
+      button.disabled {
+        background-color: #ccc;
+      }
+      button.success {
+        background-color: #29af4f;
+      }
+
+      .clear {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background-color: var(--primary);
+        padding: 0.5rem 0.5rem 0.35rem;
+        border-radius: 0.5rem;
+        letter-spacing: 0.1rem;
+        color: rgba(255, 255, 255, 0.86);
+        cursor: pointer;
+        text-transform: uppercase;
+        font-weight: 600;
+        line-height: 1;
+        -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      }
+      .clear:hover {
+        background-color: var(--primary-hover);
+      }
+      .console {
+        position: relative;
+        width: 100%;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        background: var(--bg);
+        z-index: 0;
+        margin-top: 2rem;
+      }
+
+      body > img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      .preview {
+        width: 300px;
+        height: 300px;
+        position: relative;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 5px solid var(--primary);
+        margin-top: 2rem;
+        background: white;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.75));
+      }
+
+      .preview img {
+        width: auto;
+        height: 300px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .header {
+        font-size: 3.75rem;
+        display: inline-flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin: 1rem auto 0;
+        line-height: 1;
+      }
+      .header svg,
+      .header img {
+        height: 7rem;
+        width: auto;
+      }
+      .sub-header {
+        font-size: 2.75rem;
+        margin: 4rem 0 1rem;
+      }
+      .sub-header-content {
+        font-size: 1.75rem;
+        padding: 0 2rem;
+      }
+      .sub-header-content ul {
+        padding-left: 2rem;
+      }
+
+      .sub-header-content + img {
+        display: block;
+        margin: 0 auto;
+      }
+
+      .sub-header-content + ul,
+      .sub-header-content + ol {
+        padding: 1rem 4rem;
+      }
+      .sub-header-content + ul ul,
+      .sub-header-content ~ pre,
+      .sub-header-content + ol ul {
+        list-style: disc;
+        margin-left: 2rem;
+      }
+      /* .sub-header-content + ol > li {
+        margin-bottom: 2rem;
+      } */
+      .sub-header-content + ol ul {
+        padding: 1rem 0;
+      }
+      .sub-header-content + ul pre code,
+      .sub-header-content + ol pre code,
+      .sub-header-content + ol ul pre code {
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+      }
+      pre {
+        display: inline;
+      }
+
+      pre code {
+        display: inline-block;
+        margin: 0.5rem 0 2rem;
+      }
+
+      span pre code {
+        margin-bottom: 0.5rem;
+      }
+
+      .btns {
+        position: fixed;
+        top: 5vh;
+        right: 0;
+        background: white;
+        border-top-left-radius: 1rem;
+        border-bottom-left-radius: 1rem;
+        padding: 1rem;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.7));
+        display: flex;
+        flex-direction: column;
+      }
+      .btns button:not(:last-child) {
+        margin-bottom: 1rem;
+      }
+      .sub-header-content + ul {
+        list-style: disc;
+      }
+
+      input[type="file"] {
+        display: block;
+        margin: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="header">Files 📂📁</h1>
+    <input
+      class="input"
+      type="file"
+      name="file_input"
+      id="file_input"
+      multiple
+    />
+    <label for="file_input" class="btn">Choose File</label>
+    <div class="preview">
+      <img id="preview" src="https://via.placeholder.com/300" />
+    </div>
+    <div class="preview">
+      <img id="preview2" src="https://via.placeholder.com/300" />
+    </div>
+    <form action="/upload.php" method="post" enctype="multipart/form-data">
+      <input type="file" id="file_in_form" name="file_in_form" />
+      <button type="submit">Submit</button>
+    </form>
+    <script>
+      const updateProgress = {};
+      const fileInput = document.getElementById("file_input");
+      const fileInForm = document.getElementById("file_in_form");
+
+      const onFilesAdded = (files) => {
+        let filesToAdd = files.filter((file) => file.size < 50000000),
+          rejected = [];
+        if (files.length !== filesToAdd.length) {
+          rejected = differenceBy(files, filesToAdd);
+        }
+        let newProgress = {};
+        filesToAdd.forEach((file) => {});
+      };
+      const handleFile = (e, preview = "preview") => {
+        const files = e.target.files;
+        console.log(
+          "🚀 ~ file: index.html ~ line 183 ~ handleFile ~ file",
+          files
+        );
+        let reader = new FileReader();
+
+        reader.addEventListener(
+          "load",
+          function () {
+            // convert image file to base64 string
+            document.getElementById(preview).setAttribute("src", reader.result);
+            files[0].src = reader.result;
+          },
+          false
+        );
+        reader.readAsDataURL(files[0]);
+      };
+
+      const uploadFiles = (file) => {
+        return new Promise((resolve, reject) => {
+          const req = new XMLHttpRequest();
+
+          req.upload.addEventListener("progress", (event) => {
+            if (event.lengthComputable) {
+              const copy = { ...uploadProgress };
+              copy[file.name] = {
+                state: "pending",
+                percentage: (event.loaded / event.total) * 100,
+              };
+            }
+          });
+
+          req.upload.addEventListener("load", function (e) {
+            const copy = { ...uploadProgress };
+            copy[file.name] = { state: "done", percentage: 100 };
+            resolve(req.response);
+          });
+
+          req.upload.addEventListener("error", (event) => {
+            const copy = { ...uploadProgress };
+            copy[file.name] = { state: "error", percentage: 0 };
+            reject(req.response);
+          });
+
+          const formData = new FormData();
+          formData.append("file", file, file.name);
+          formData.append("folder", folder);
+
+          req.open("POST", "http://localhost:5003/api/upload");
+
+          req.send(formData);
+
+          req.onload = () => {
+            let data = JSON.parse(req.response);
+          };
+        });
+      };
+
+      fileInput.addEventListener("change", handleFile);
+      fileInForm.addEventListener("change", (e) => {
+        handleFile(e, "preview2");
+      });
+    </script>
+  </body>
+</html>
