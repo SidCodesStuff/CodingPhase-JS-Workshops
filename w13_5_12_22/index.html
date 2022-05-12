@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CodingPhase JS Workshop 12 &ndash; 5-5-22</title>
+    <title>CodingPhase JS Workshop 13 &ndash; 5-12-22</title>
     <link
       rel="stylesheet"
       href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css"
@@ -215,104 +215,68 @@
     </style>
   </head>
   <body>
-    <h1 class="header">Files 📂📁</h1>
-    <input
-      class="input"
-      type="file"
-      name="file_input"
-      id="file_input"
-      multiple
-    />
-    <div class="preview">
-      <img id="preview" src="https://via.placeholder.com/300" />
-    </div>
-    <label for="file_input" class="btn">Choose File</label>
-    <div class="preview">
-      <img id="preview2" src="https://via.placeholder.com/300" />
-    </div>
-    <form action="/upload.php" method="post" enctype="multipart/form-data">
-      <input type="file" id="file_in_form" name="file_in_form" />
-      <label for="file_in_form" class="btn">Choose File</label>
-      <button type="submit">Submit</button>
-    </form>
-    <script>
-      const uploadProgress = {};
-      const fileInput = document.getElementById("file_input");
-      const fileInForm = document.getElementById("file_in_form");
-
-      const onFilesAdded = (files) => {
-        let filesToAdd = files.filter((file) => file.size < 50000000),
-          rejected = [];
-        if (files.length !== filesToAdd.length) {
-          // rejected = differenceBy(files, filesToAdd);
-        }
-        let newProgress = {};
-        filesToAdd.forEach((file) => {});
-      };
-      const handleFile = (e, preview = "preview") => {
-        const { files } = e.target;
-        console.log(
-          "🚀 ~ file: index.html ~ line 183 ~ handleFile ~ file",
-          files
-        );
-        let reader = new FileReader();
-
-        reader.addEventListener(
-          "load",
-          function () {
-            // convert image file to base64 string
-            document.getElementById(preview).setAttribute("src", reader.result);
-            files[0].src = reader.result;
-          },
-          false
-        );
-        reader.readAsDataURL(files[0]);
-      };
-
-      const uploadFiles = (file) => {
-        return new Promise((resolve, reject) => {
-          const req = new XMLHttpRequest();
-
-          req.upload.addEventListener("progress", (event) => {
-            if (event.lengthComputable) {
-              const copy = { ...uploadProgress };
-              copy[file.name] = {
-                state: "pending",
-                percentage: (event.loaded / event.total) * 100,
-              };
-            }
-          });
-
-          req.upload.addEventListener("load", function (e) {
-            const copy = { ...uploadProgress };
-            copy[file.name] = { state: "done", percentage: 100 };
-            resolve(req.response);
-          });
-
-          req.upload.addEventListener("error", (event) => {
-            const copy = { ...uploadProgress };
-            copy[file.name] = { state: "error", percentage: 0 };
-            reject(req.response);
-          });
-
-          const formData = new FormData();
-          formData.append("file", file, file.name);
-          formData.append("folder", folder);
-
-          req.open("POST", "http://localhost:3000/api/upload");
-
-          req.send(formData);
-
-          req.onload = () => {
-            let data = JSON.parse(req.response);
-          };
-        });
-      };
-
-      fileInput.addEventListener("change", handleFile);
-      fileInForm.addEventListener("change", (e) => {
-        handleFile(e, "preview2");
-      });
-    </script>
+    <h1 class="header">NVM &amp; Friends 💻🧑🧑🏻🧑🏼🧑🏼🧑🏾🧑🏿</h1>
+    <h2 class="sub-header">Node Version Manager (NVM)</h2>
+    <p class="sub-header-content">
+      We've touched on this previously but this let's you use multiple versions
+      of Node in your terminal interchangeably. To install NVM, go to the
+      following link:
+    </p>
+    <ul>
+      <li>
+        <pre><code>https://github.com/nvm-sh/nvm/blob/master/README.md#intro</code></pre>
+      </li>
+    </ul>
+    <h2 class="sub-header">React</h2>
+    <p class="sub-header-content">
+      By far the most popular frontend framework, in terms of both jobs and
+      general use in the development community. Knowing React will expand your
+      opportunities greatly and knowing it can help you jump to another pay
+      grade.
+    </p>
+    <ul>
+      <li>
+        <pre><code>https://reactjs.org/docs/create-a-new-react-app.html</code></pre>
+      </li>
+    </ul>
+    <h2 class="sub-header">Svelte</h2>
+    <p class="sub-header-content">
+      The least used of the trio but consistently rates at the top in terms of
+      developer experience. Although it is very new, people like to work in
+      Svelte and will often choose it for things they build in their free time.
+      With the framework being so new there isn't always the best support so you
+      must be willing to get your hands dirty and build things yourself
+      sometimes.
+      <br />
+      Although this is a major disadvantage, due to its popularity it is likely
+      that Svelte will continue to mature and gain market share. In this case,
+      you could be on the cutting edge of the newest technology which will make
+      you primed for the roles that become available. Missed out on React and
+      Vue? Dip your toe in Svelte and see what the future brings.
+    </p>
+    <ul>
+      <li>
+        <pre><code>https://github.com/sveltejs/svelte</code></pre>
+      </li>
+    </ul>
+    <h2 class="sub-header">Vue</h2>
+    <p class="sub-header-content">
+      Often seen as hate it or love it, Vue is the middle ground between React
+      and Svelte in terms of usage. Companies are more likely to use Vue for
+      lightweight applications or even auxillary applications to their main
+      product.
+    </p>
+    <ul>
+      <li>
+        <pre><code>https://vuejs.org/guide/quick-start.html</code></pre>
+      </li>
+    </ul>
+    <h2 class="sub-header">Angular</h2>
+    <p class="sub-header-content">I would never subject you to installing/using Angular but if you choose to do so of your own volition...</p>
+    <ul>
+      <li>
+        <pre><code>https://angular.io/start</code></pre>
+      </li>
+    </ul>
   </body>
 </html>
