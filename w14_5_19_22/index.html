@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodingPhase JS Workshop 14 &ndash; 5-19-22</title>
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css"
+    />
+    <style>
+      :root {
+        --addon-width: 24px;
+        --bg: #efefef;
+        --primary: #2196f3;
+        --primary-hover: #1981d6;
+        --text: rgba(0, 0, 0, 0.8);
+      }
+      @keyframes floating {
+        0% {
+          transform: translate(0, 0px);
+          -webkit-filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7));
+          filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7));
+        }
+        50% {
+          transform: translate(0, 15px);
+          -webkit-filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.7));
+          filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.7));
+        }
+        100% {
+          transform: translate(0, -0px);
+          -webkit-filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7));
+          filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7));
+        }
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      body {
+        padding: 1rem;
+        overflow: hidden;
+        overflow-y: auto;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      button,
+      .btn {
+        appearance: none;
+        -webkit-appearance: none;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        background-color: var(--primary);
+        color: rgba(255, 255, 255, 1);
+        cursor: pointer;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05rem;
+      }
+
+      button.disabled {
+        background-color: #ccc;
+      }
+      button.success {
+        background-color: #29af4f;
+      }
+
+      .clear {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background-color: var(--primary);
+        padding: 0.5rem 0.5rem 0.35rem;
+        border-radius: 0.5rem;
+        letter-spacing: 0.1rem;
+        color: rgba(255, 255, 255, 0.86);
+        cursor: pointer;
+        text-transform: uppercase;
+        font-weight: 600;
+        line-height: 1;
+        -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      }
+      .clear:hover {
+        background-color: var(--primary-hover);
+      }
+      .console {
+        position: relative;
+        width: 100%;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        background: var(--bg);
+        z-index: 0;
+        margin-top: 2rem;
+      }
+
+      body > img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      .preview {
+        width: 200px;
+        height: 200px;
+        position: relative;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 0.5rem solid #000;
+        margin-top: 2rem;
+        background: white;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.75));
+      }
+
+      .preview .overlay {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 6;
+        background-color: rgba(0, 0, 0, 0.25);
+        border-radius: 50%;
+        cursor: pointer;
+        color: rgba(255, 255, 255, 0.86);
+      }
+
+      .preview:hover .overlay {
+        display: flex;
+      }
+
+      .overlay i,
+      .overlay p {
+        color: inherit;
+        font-weight: 500;
+      }
+      .overlay i {
+        font-size: 8rem;
+        color: rgba(255, 255, 255, 0.86);
+        margin: -1.5rem 0;
+      }
+
+      label.btn {
+        margin-top: 2rem;
+        display: inline-block;
+      }
+
+      button[type="submit"] {
+        display: block;
+        margin-top: 2rem;
+      }
+
+      .preview img {
+        width: auto;
+        height: 200px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 0;
+        transform: translate(-50%, -50%);
+      }
+
+      .header {
+        font-size: 3.75rem;
+        display: inline-flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin: 1rem auto 0;
+        line-height: 1;
+      }
+      .header svg,
+      .header img {
+        height: 7rem;
+        width: auto;
+      }
+      .sub-header {
+        font-size: 2.75rem;
+        margin: 4rem 0 1rem;
+      }
+      .sub-header-content {
+        font-size: 1.75rem;
+        padding: 0 2rem;
+      }
+      .sub-header-content ul {
+        padding-left: 2rem;
+      }
+
+      .sub-header-content + img {
+        display: block;
+        margin: 0 auto;
+      }
+
+      .sub-header-content + ul,
+      .sub-header-content + ol {
+        padding: 1rem 4rem;
+      }
+      .sub-header-content + ul ul,
+      .sub-header-content ~ pre,
+      .sub-header-content + ol ul {
+        list-style: disc;
+        margin-left: 2rem;
+      }
+      /* .sub-header-content + ol > li {
+        margin-bottom: 2rem;
+      } */
+      .sub-header-content + ol ul {
+        padding: 1rem 0;
+      }
+      .sub-header-content + ul pre code,
+      .sub-header-content + ol pre code,
+      .sub-header-content + ol ul pre code {
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+      }
+      pre {
+        display: inline;
+      }
+
+      pre code {
+        display: inline-block;
+        margin: 0.5rem 0 2rem;
+      }
+
+      span pre code {
+        margin-bottom: 0.5rem;
+      }
+
+      .btns {
+        position: fixed;
+        top: 5vh;
+        right: 0;
+        background: white;
+        border-top-left-radius: 1rem;
+        border-bottom-left-radius: 1rem;
+        padding: 1rem;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.7));
+        display: flex;
+        flex-direction: column;
+      }
+      .btns button:not(:last-child) {
+        margin-bottom: 1rem;
+      }
+      .sub-header-content + ul {
+        list-style: disc;
+      }
+
+      /* input[type="file"] {
+        display: block;
+        margin: 2rem;
+      } */
+      input[type="file"] {
+        display: none;
+      }
+      .input {
+        width: calc(100% - (var(--addon-width) + 1rem));
+        height: 34px;
+        border-radius: 0.5rem;
+        display: block;
+        margin-bottom: 1rem;
+      }
+
+      .input:focus {
+        margin-bottom: 0;
+      }
+      input,
+      textarea {
+        width: 100%;
+        padding: 1rem 0.5rem;
+        border-radius: 0.5rem;
+        border: 1px solid #000000;
+        resize: none;
+      }
+
+      textarea {
+        height: 150px;
+      }
+
+      .ui {
+        padding: 1rem;
+      }
+      .ui .card {
+        width: 100%;
+        height: auto;
+        background: #fff;
+        border: 0.5rem solid #000;
+        border-radius: 10rem;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        align-items: stretch;
+        justify-content: center;
+        grid-gap: 1rem;
+        padding: 0.5rem;
+        -webkit-filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7));
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7));
+      }
+
+      .floating {
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        animation-name: floating;
+        animation-duration: 2.5s;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-in-out;
+        transition: height 0.15s ease-in-out;
+        margin: 0 auto;
+        margin-top: 5px;
+      }
+
+      .ui .profile-preview,
+      .ui .form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-left: 0.5rem solid #000;
+        height: calc(100% + 1rem);
+        margin-top: -0.5rem;
+        padding: 4rem;
+      }
+
+      .ui .form {
+        border: none;
+      }
+      .ui .form label {
+        align-self: start;
+        margin: 1rem 0 0 2rem;
+      }
+
+      .profile-preview .preview {
+        margin: 1rem;
+      }
+
+      .profile-preview p {
+        text-align: center;
+      }
+      .profile-preview p.display-name {
+        font-size: 3rem;
+      }
+      .profile-preview p.username {
+        font-size: 2rem;
+        color: var(--primary);
+        margin-bottom: 1rem;
+      }
+      .profile-preview p.username:hover {
+        color: var(--primary-hover);
+      }
+      .profile-preview p.bio {
+        margin-bottom: 4rem;
+      }
+
+      .card .sub-header {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="header">Profile Edit UI</h1>
+    <!-- <div class="ui">
+      <div class="card floating">
+        <div class="form">
+          <h2 class="sub-header">Edit Profile</h2>
+          <label for="username">Username</label>
+          <div class="input">
+            <input type="text" name="username" id="username" />
+          </div>
+          <label for="display_name">Display Name</label>
+          <div class="input">
+            <input type="text" name="display_name" id="display_name" />
+          </div>
+          <label for="bio">Bio</label>
+          <div class="input">
+            <textarea name="bio" id="bio"></textarea>
+          </div>
+        </div>
+        <div class="profile-preview">
+          <div class="preview">
+            <input type="file" id="avatar_file" name="avatar_file" />
+            <img src="https://via.placeholder.com/300" alt="User Avatar" id="preview"/>
+            <label for="avatar_file" class="overlay">
+              <i class="mdi mdi-upload"></i>
+              <p>Change Avatar</p>
+            </label>
+          </div>
+          <p class="display-name">Sid Codes</p>
+          <p class="username">@<span>Sid</span></p>
+          <p class="bio">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+            Perferendis distinctio fugiat enim voluptates perspiciatis cum id
+            vero necessitatibus et, facilis ipsa consequatur quos dolor
+            excepturi error exercitationem, sapiente atque tempore?
+          </p>
+        </div>
+      </div>
+    </div> -->
+    <script>
+      //   const card = document.querySelector(".ui .card");
+      //   const bioInput = document.getElementById("bio");
+      //   const displayNameInput = document.getElementById("display_name");
+      //   const fileInput = document.getElementById("avatar_file");
+      //   const usernameInput = document.getElementById("username");
+      //   const handleFile = (e, preview = "preview") => {
+      //     const { files } = e.target;
+      //     console.log(
+      //       "🚀 ~ file: index.html ~ line 183 ~ handleFile ~ file",
+      //       files
+      //     );
+      //     let reader = new FileReader();
+
+      //     reader.addEventListener(
+      //       "load",
+      //       function () {
+      //         // convert image file to base64 string
+      //         document.getElementById(preview).setAttribute("src", reader.result);
+      //         files[0].src = reader.result;
+      //       },
+      //       false
+      //     );
+      //     reader.readAsDataURL(files[0]);
+      //   };
+      //   const startFloat = (e) => {
+      //     e.currentTarget.closest(".card").classList.add("floating");
+      //   };
+      //   const stopFloat = (e) => {
+      //     e.currentTarget.closest(".card").classList.remove("floating");
+      //   };
+      //   const toggleFloat = (e) => {
+      //     e.currentTarget.closest(".card").classList.toggle("floating");
+      //   };
+
+      //   const updateBio = (e) => {
+      //     document.querySelector(".bio").innerText = e.target.value;
+      //   };
+      //   const updateDisplayName = (e) => {
+      //     document.querySelector(".display-name").innerText = e.target.value;
+      //   };
+      //   const updateUsername = (e) => {
+      //     document.querySelector(".username span").innerText = e.target.value;
+      //   };
+
+      //   bioInput.addEventListener("blur", startFloat);
+      //   bioInput.addEventListener("focus", stopFloat);
+      //   bioInput.addEventListener("input", updateBio);
+      //   displayNameInput.addEventListener("blur", startFloat);
+      //   displayNameInput.addEventListener("focus", stopFloat);
+      //   displayNameInput.addEventListener("input", updateDisplayName);
+      //   usernameInput.addEventListener("blur", startFloat);
+      //   usernameInput.addEventListener("focus", stopFloat);
+      //   usernameInput.addEventListener("input", updateUsername);
+      //   fileInput.addEventListener("change", handleFile);
+    </script>
+  </body>
+</html>
