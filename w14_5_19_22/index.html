@@ -367,7 +367,7 @@
   </head>
   <body>
     <h1 class="header">Profile Edit UI</h1>
-    <!-- <div class="ui">
+    <div class="ui">
       <div class="card floating">
         <div class="form">
           <h2 class="sub-header">Edit Profile</h2>
@@ -385,9 +385,13 @@
           </div>
         </div>
         <div class="profile-preview">
+          <input type="file" id="avatar_file" name="avatar_file" />
           <div class="preview">
-            <input type="file" id="avatar_file" name="avatar_file" />
-            <img src="https://via.placeholder.com/300" alt="User Avatar" id="preview"/>
+            <img
+              src="https://via.placeholder.com/300"
+              alt="User Avatar"
+              id="preview"
+            />
             <label for="avatar_file" class="overlay">
               <i class="mdi mdi-upload"></i>
               <p>Change Avatar</p>
@@ -403,62 +407,63 @@
           </p>
         </div>
       </div>
-    </div> -->
+    </div>
     <script>
-      //   const card = document.querySelector(".ui .card");
-      //   const bioInput = document.getElementById("bio");
-      //   const displayNameInput = document.getElementById("display_name");
-      //   const fileInput = document.getElementById("avatar_file");
-      //   const usernameInput = document.getElementById("username");
-      //   const handleFile = (e, preview = "preview") => {
-      //     const { files } = e.target;
-      //     console.log(
-      //       "🚀 ~ file: index.html ~ line 183 ~ handleFile ~ file",
-      //       files
-      //     );
-      //     let reader = new FileReader();
+      const card = document.querySelector(".ui .card");
+      const bioInput = document.getElementById("bio");
+      const displayNameInput = document.getElementById("display_name");
+      const fileInput = document.getElementById("avatar_file");
+      const usernameInput = document.getElementById("username");
+      const handleFile = (e) => {
+        const { files } = e.target;
+        console.log(
+          "🚀 ~ file: index.html ~ line 183 ~ handleFile ~ file",
+          files
+        );
+        let reader = new FileReader();
 
-      //     reader.addEventListener(
-      //       "load",
-      //       function () {
-      //         // convert image file to base64 string
-      //         document.getElementById(preview).setAttribute("src", reader.result);
-      //         files[0].src = reader.result;
-      //       },
-      //       false
-      //     );
-      //     reader.readAsDataURL(files[0]);
-      //   };
-      //   const startFloat = (e) => {
-      //     e.currentTarget.closest(".card").classList.add("floating");
-      //   };
-      //   const stopFloat = (e) => {
-      //     e.currentTarget.closest(".card").classList.remove("floating");
-      //   };
-      //   const toggleFloat = (e) => {
-      //     e.currentTarget.closest(".card").classList.toggle("floating");
-      //   };
+        reader.addEventListener(
+          "load",
+          function () {
+            console.log("🚀 ~ file: index.html ~ line 430 ~ handleFile ~ reader", reader)
+            // convert image file to base64 string
+            document.getElementById("preview").setAttribute("src", reader.result);
+            files[0].src = reader.result;
+          },
+          false
+        );
+        reader.readAsDataURL(files[0]);
+      };
+      const startFloat = (e) => {
+        e.currentTarget.closest(".card").classList.add("floating");
+      };
+      const stopFloat = (e) => {
+        e.currentTarget.closest(".card").classList.remove("floating");
+      };
+      const toggleFloat = (e) => {
+        e.currentTarget.closest(".card").classList.toggle("floating");
+      };
 
-      //   const updateBio = (e) => {
-      //     document.querySelector(".bio").innerText = e.target.value;
-      //   };
-      //   const updateDisplayName = (e) => {
-      //     document.querySelector(".display-name").innerText = e.target.value;
-      //   };
-      //   const updateUsername = (e) => {
-      //     document.querySelector(".username span").innerText = e.target.value;
-      //   };
+      const updateBio = (e) => {
+        document.querySelector(".bio").innerText = e.target.value;
+      };
+      const updateDisplayName = (e) => {
+        document.querySelector(".display-name").innerText = e.target.value;
+      };
+      const updateUsername = (e) => {
+        document.querySelector("p.username span").innerText = e.target.value;
+      };
 
-      //   bioInput.addEventListener("blur", startFloat);
-      //   bioInput.addEventListener("focus", stopFloat);
-      //   bioInput.addEventListener("input", updateBio);
-      //   displayNameInput.addEventListener("blur", startFloat);
-      //   displayNameInput.addEventListener("focus", stopFloat);
-      //   displayNameInput.addEventListener("input", updateDisplayName);
-      //   usernameInput.addEventListener("blur", startFloat);
-      //   usernameInput.addEventListener("focus", stopFloat);
-      //   usernameInput.addEventListener("input", updateUsername);
-      //   fileInput.addEventListener("change", handleFile);
+      bioInput.addEventListener("blur", startFloat);
+      bioInput.addEventListener("focus", stopFloat);
+      bioInput.addEventListener("input", updateBio);
+      displayNameInput.addEventListener("blur", startFloat);
+      displayNameInput.addEventListener("focus", stopFloat);
+      displayNameInput.addEventListener("input", updateDisplayName);
+      usernameInput.addEventListener("blur", startFloat);
+      usernameInput.addEventListener("focus", stopFloat);
+      usernameInput.addEventListener("input", updateUsername);
+      fileInput.addEventListener("change", handleFile);
     </script>
   </body>
 </html>
