@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodingPhase JS Workshop 18 &ndash; 6-16-22</title>
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css"
+    />
+    <style>
+      :root {
+        --addon-width: 24px;
+        --bg: #efefef;
+        --primary: #2196f3;
+        --primary-hover: #1981d6;
+        --text: rgba(0, 0, 0, 0.8);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      body {
+        padding: 1rem;
+        overflow: hidden;
+        overflow-y: auto;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      button,
+      .btn {
+        appearance: none;
+        -webkit-appearance: none;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        background-color: var(--primary);
+        color: rgba(255, 255, 255, 1);
+        cursor: pointer;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05rem;
+      }
+
+      button.disabled {
+        background-color: #ccc;
+      }
+      button.success {
+        background-color: #29af4f;
+      }
+
+      .clear {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background-color: var(--primary);
+        padding: 0.5rem 0.5rem 0.35rem;
+        border-radius: 0.5rem;
+        letter-spacing: 0.1rem;
+        color: rgba(255, 255, 255, 0.86);
+        cursor: pointer;
+        text-transform: uppercase;
+        font-weight: 600;
+        line-height: 1;
+        -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      }
+      .clear:hover {
+        background-color: var(--primary-hover);
+      }
+      .console {
+        position: relative;
+        width: 100%;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        background: var(--bg);
+        z-index: 0;
+        margin-top: 2rem;
+      }
+
+      .header {
+        font-size: 3.75rem;
+        display: inline-flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin: 1rem auto 0;
+        line-height: 1;
+      }
+      .header svg,
+      .header img {
+        height: 7rem;
+        width: auto;
+      }
+      .sub-header {
+        font-size: 2.75rem;
+        margin: 4rem 0 1rem;
+      }
+      .sub-header-content {
+        font-size: 1.75rem;
+        padding: 0 2rem;
+      }
+      .sub-header-content ul {
+        padding-left: 2rem;
+      }
+
+      .sub-header-content + img {
+        display: block;
+        margin: 0 auto;
+      }
+
+      .sub-header-content + ul,
+      .sub-header-content + ol {
+        padding: 1rem 4rem;
+      }
+      .sub-header-content + ul ul,
+      .sub-header-content ~ pre,
+      .sub-header-content + ol ul {
+        list-style: disc;
+        margin-left: 2rem;
+      }
+      /* .sub-header-content + ol > li {
+        margin-bottom: 2rem;
+      } */
+      .sub-header-content + ol ul {
+        padding: 1rem 0;
+      }
+      .sub-header-content + ul pre code,
+      .sub-header-content + ol pre code,
+      .sub-header-content + ol ul pre code {
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+      }
+      pre {
+        display: inline;
+      }
+
+      pre code {
+        display: inline-block;
+        margin: 0.5rem 0 2rem;
+      }
+
+      span pre code {
+        margin-bottom: 0.5rem;
+      }
+
+      .btns {
+        position: fixed;
+        top: 5vh;
+        right: 0;
+        background: white;
+        border-top-left-radius: 1rem;
+        border-bottom-left-radius: 1rem;
+        padding: 1rem;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.7));
+        display: flex;
+        flex-direction: column;
+      }
+      .btns button:not(:last-child) {
+        margin-bottom: 1rem;
+      }
+      .sub-header-content + ul {
+        list-style: disc;
+      }
+
+      input[type="file"] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="header">Typescript (TS)</h1>
+    <h2 class="sub-header">What is Typescript?</h2>
+    <p class="sub-header-content">
+      Typescript is a super-set of Javascript. Meaning that it expands on
+      Javascript's functionality. This means that all valid Javascript files are
+      valid Typescript files. The place that Typescript differs is in the
+      features it adds on top of Javascript.<br /><br />
+      These additional features include:
+    </p>
+    <ul>
+      <li>
+        <p>Static Typing (Type checking)</p>
+        <ul>
+          <li>
+            If you've ever worked with a statically typed language like C++, C#,
+            Java, etc. then you are familiar with the need to define the types
+            of your variables before you can use them.
+            <br /><br />
+          </li>
+        </ul>
+      </li>
+      <li>Code completion</li>
+      <ul>
+        <li>
+          By using static typing, you make your code self-aware. Meaning it
+          knows what kind of data it should be receiving or passing around. This
+          allows for much better code completion than your text editor's
+          built-in autocomplete. Instead of getting general Javascript syntax
+          autocompletion you will get a pre-emptive type of autocomplete where
+          it is telling you what variable you need and where.
+          <br /><br />
+        </li>
+      </ul>
+      <li>Refactoring</li>
+      <ul>
+        <li>
+          Having self-aware code makes refactoring easier as it will often give
+          you editor errors (red underlines) whenever you're making a mistake.
+          This makes mistakes more easily identifiable and also makes them
+          easier to avoid.
+          <br /><br />
+        </li>
+      </ul>
+      <li>Shorthand notations</li>
+      <ul>
+        <li>
+          Many of the modern shorthands that we use in our workshops weren't
+          always a part of Javascript. Originally, they were implemented in
+          Typescript and were later adopted into the ECMA-script spec.
+          <br /><br />
+          These include:
+          <ul>
+            <li>Spread/Rest operator (...)</li>
+            <li>Nullish coalescing operator (??)</li>
+            <li>Optional Chaining (object?.method)</li>
+          </ul>
+        </li>
+      </ul>
+    </ul>
+    <h2 class="sub-header">Why use Typescript?</h2>
+    <p class="sub-header-content">
+      Typescript comes in handy to safeguard developers from the quirks of
+      Javascript. Some of these quirks we've encountred in our past workshops.
+      Typescript allows you to define the types your code is expecting. This
+      allows you to make less errors as your code will be self-awate and can
+      tell you when you're trying to use a data type that will make the code
+      break.
+    </p>
+    <h2 class="sub-header">When to use Typescript?</h2>
+    <p class="sub-header-content">
+      Typescript can be used any time you're writing Javascript no matter how
+      small/large the project. However, typescript can be overkill in some
+      cases. If you're building a personal project, you may not need TS. In
+      fact, there are times when TS can make your development flow more
+      complicated than is necessary.<br /><br />
+      For the most part, TS is used on medium/large projects where there are
+      multiple developers working on one project. This comes in handy as it
+      keeps people from stepping on each other's toes by preventing the misuse
+      of code written by somebody
+    </p>
+    <h2 class="sub-header">Typescript Types</h2>
+    <p class="sub-header-content">
+      Typescript has the primitive types you've come to know from Javascript.
+      However, they've also added additional types so you can more specifically
+      define the data your code needs.<br/>These include:
+    </p>
+    <ul>
+      <li>String (string)</li>
+      <li>Number (number)</li>
+      <li>Boolean (boolean)</li>
+      <li>Any (any)</li>
+    </ul>
+    <br /><br />
+    <h2 class="sub-header">Defining types</h2>
+    <p class="sub-header-content">To define a variable with a type you simply do the following:</p>
+    <ul>
+        <p><pre><code>let num: number = 24</code></pre></p>
+        <p><pre><code>let name: string = 'Sid'</code></pre></p>
+        <p><pre><code>let isValid: boolean = false</code></pre></p>
+    </ul>
+    <p class="sub-header-content">To define types for a function's argument you do this:</p>
+    <ul>
+        <p><pre><code>const myFunction = (arg1: number, arg2: string) => {}</code></pre></p>
+        <p><pre><code>function myFunction(arg1: number, arg2: string) {}</code></pre></p>
+    </ul>
+    <p class="sub-header-content">To define types for a function's return value you do this:</p>
+    <ul>
+        <p><pre><code>const myFunction = (arg1: number, arg2: number): number => {
+    return arg1 + arg2
+}</code></pre></p>
+        <p><pre><code>function myFunction(name: string): string {
+    return `Hello ${name}`
+}</code></pre></p>
+    </ul>
+    <h2 class="sub-header">Setting up your environment for TS</h2>
+    <p class="sub-header-content">You should already have node/npm installed so to use typescript all you have to do is run:</p>
+    <ul>
+        <pre><code>npm install -g typescript</code></pre>
+    </ul>
+    <p class="sub-header-content">To make sure it installed correctly run:</p>
+    <ul>
+        <pre><code>tsc -v</code></pre>
+    </ul>
+
+    <h2 class="sub-header">Let's write some typescript</h2>
+  </body>
+</html>
