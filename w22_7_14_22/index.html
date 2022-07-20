@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodingPhase JS Workshop 22 &ndash; 7-14-22</title>
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/@mdi/font@6.5.95/css/materialdesignicons.min.css"
+    />
+    <style>
+      :root {
+        --addon-width: 24px;
+        --bg: #efefef;
+        --primary: #2196f3;
+        --primary-hover: #1981d6;
+        --text: rgba(0, 0, 0, 0.8);
+      }
+      @keyframes floating {
+        0% {
+          transform: translate(0, 0px);
+          -webkit-filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7));
+          filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7));
+        }
+        50% {
+          transform: translate(0, 15px);
+          -webkit-filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.7));
+          filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.7));
+        }
+        100% {
+          transform: translate(0, -0px);
+          -webkit-filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7));
+          filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7));
+        }
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      body {
+        padding: 1rem;
+        overflow: hidden;
+        overflow-y: auto;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      button,
+      .btn {
+        appearance: none;
+        -webkit-appearance: none;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        background-color: var(--primary);
+        color: rgba(255, 255, 255, 1);
+        cursor: pointer;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05rem;
+      }
+
+      button.disabled {
+        background-color: #ccc;
+      }
+      button.success {
+        background-color: #29af4f;
+      }
+
+      .clear {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background-color: var(--primary);
+        padding: 0.5rem 0.5rem 0.35rem;
+        border-radius: 0.5rem;
+        letter-spacing: 0.1rem;
+        color: rgba(255, 255, 255, 0.86);
+        cursor: pointer;
+        text-transform: uppercase;
+        font-weight: 600;
+        line-height: 1;
+        -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      }
+      .clear:hover {
+        background-color: var(--primary-hover);
+      }
+      .console {
+        position: relative;
+        width: 100%;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        background: var(--bg);
+        z-index: 0;
+        margin-top: 2rem;
+      }
+
+      body > img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      .preview {
+        width: 200px;
+        height: 200px;
+        position: relative;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 0.5rem solid #000;
+        margin-top: 2rem;
+        background: white;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.75));
+      }
+
+      .preview .overlay {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 6;
+        background-color: rgba(0, 0, 0, 0.25);
+        border-radius: 50%;
+        cursor: pointer;
+        color: rgba(255, 255, 255, 0.86);
+      }
+
+      .preview:hover .overlay {
+        display: flex;
+      }
+
+      .overlay i,
+      .overlay p {
+        color: inherit;
+        font-weight: 500;
+      }
+      .overlay i {
+        font-size: 8rem;
+        color: rgba(255, 255, 255, 0.86);
+        margin: -1.5rem 0;
+      }
+
+      label.btn {
+        margin-top: 2rem;
+        display: inline-block;
+      }
+
+      button[type="submit"] {
+        display: block;
+        margin-top: 2rem;
+      }
+
+      .preview img {
+        width: auto;
+        height: 200px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 0;
+        transform: translate(-50%, -50%);
+      }
+
+      .header {
+        font-size: 3.75rem;
+        display: inline-flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin: 1rem auto 0;
+        line-height: 1;
+      }
+      .header svg,
+      .header img {
+        height: 7rem;
+        width: auto;
+      }
+      .sub-header {
+        font-size: 2.75rem;
+        margin: 4rem 0 1rem;
+      }
+      .sub-header-content {
+        font-size: 1.75rem;
+        padding: 0 2rem;
+      }
+      .sub-header-content ul {
+        padding-left: 2rem;
+      }
+
+      .sub-header-content + img {
+        display: block;
+        margin: 0 auto;
+      }
+
+      .sub-header-content + ul,
+      .sub-header-content + ol {
+        padding: 1rem 4rem;
+      }
+      .sub-header-content + ul ul,
+      .sub-header-content ~ pre,
+      .sub-header-content + ol ul {
+        list-style: disc;
+        margin-left: 2rem;
+      }
+      /* .sub-header-content + ol > li {
+        margin-bottom: 2rem;
+      } */
+      .sub-header-content + ol ul {
+        padding: 1rem 0;
+      }
+      .sub-header-content + ul pre code,
+      .sub-header-content + ol pre code,
+      .sub-header-content + ol ul pre code {
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+      }
+      pre {
+        display: inline;
+      }
+
+      pre code {
+        display: inline-block;
+        margin: 0.5rem 0 2rem;
+      }
+
+      span pre code {
+        margin-bottom: 0.5rem;
+      }
+
+      .btns {
+        position: fixed;
+        top: 5vh;
+        right: 0;
+        background: white;
+        border-top-left-radius: 1rem;
+        border-bottom-left-radius: 1rem;
+        padding: 1rem;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.7));
+        display: flex;
+        flex-direction: column;
+      }
+      .btns button:not(:last-child) {
+        margin-bottom: 1rem;
+      }
+      .sub-header-content + ul {
+        list-style: disc;
+      }
+
+      /* input[type="file"] {
+        display: block;
+        margin: 2rem;
+      } */
+      input[type="file"] {
+        display: none;
+      }
+      .input {
+        width: calc(100% - (var(--addon-width) + 1rem));
+        height: 34px;
+        border-radius: 0.5rem;
+        display: block;
+        margin-bottom: 1rem;
+      }
+
+      .input:focus {
+        margin-bottom: 0;
+      }
+      input,
+      textarea {
+        width: 100%;
+        padding: 1rem 0.5rem;
+        border-radius: 0.5rem;
+        border: 1px solid #000000;
+        resize: none;
+      }
+
+      textarea {
+        height: 150px;
+      }
+
+      .ui {
+        padding: 1rem;
+      }
+      .ui .card {
+        width: 100%;
+        height: auto;
+        background: #fff;
+        border: 0.5rem solid #000;
+        border-radius: 10rem;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        align-items: stretch;
+        justify-content: center;
+        grid-gap: 1rem;
+        padding: 0.5rem;
+        -webkit-filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7));
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7));
+      }
+
+      .floating {
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        animation-name: floating;
+        animation-duration: 2.5s;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-in-out;
+        transition: height 0.15s ease-in-out;
+        margin: 0 auto;
+        margin-top: 5px;
+      }
+
+      .ui .profile-preview,
+      .ui .form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-left: 0.5rem solid #000;
+        height: calc(100% + 1rem);
+        margin-top: -0.5rem;
+        padding: 4rem;
+      }
+
+      .ui .form {
+        border: none;
+      }
+      .ui .form label {
+        align-self: start;
+        margin: 1rem 0 0 2rem;
+      }
+
+      .profile-preview .preview {
+        margin: 1rem;
+      }
+
+      .profile-preview p {
+        text-align: center;
+      }
+      .profile-preview p.display-name {
+        font-size: 3rem;
+      }
+      .profile-preview p.username {
+        font-size: 2rem;
+        color: var(--primary);
+        margin-bottom: 1rem;
+      }
+      .profile-preview p.username:hover {
+        color: var(--primary-hover);
+      }
+      .profile-preview p.bio {
+        margin-bottom: 4rem;
+      }
+
+      .card .sub-header {
+        margin: 0;
+      }
+
+      .play {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 10rem;
+        line-height: 1;
+        margin-bottom: 1rem;
+      }
+
+      .player {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+
+      video {
+        width: 100%;
+        height: auto;
+        display: block;
+        position: relative;
+        z-index: 0;
+      }
+
+      .controls {
+        width: 100%;
+        height: 3rem;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        z-index: 2;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .controls p,
+      .controls i {
+        color: #fff;
+      }
+
+      .controls p {
+        margin-right: 1rem;
+        font-weight: 600;
+        font-size: 1.5rem;
+      }
+
+      .play-btn {
+        height: 3rem;
+        width: 3rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 2rem;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="header">HTML 5 Media API</h1>
+    <div class="player">
+      <video id="video">
+        <source src="file.mp4" type="video/mp4" />
+      </video>
+      <div class="controls">
+        <div class="play-btn">
+          <i class="mdi mdi-play"></i>
+          <i class="mdi mdi-pause"></i>
+        </div>
+        <p>
+            <span id="currentTime">0:00</span>/
+            <span id="totalTime">0:00</span>
+        </p>
+      </div>
+    </div>
+    <script>
+      const video = document.getElementById("video");
+      const playBtn = document.querySelector(".controls .play-btn");
+
+      const convertToTimestamp = (value, element) => {
+        var hours = parseInt(value / 3600);
+
+        value %= 3600;
+        var minutes = Math.floor(value / 60);
+
+        value %= 60;
+        var seconds = Math.floor(value);
+
+        document.getElementById(element).innerText = `${
+          hours > 0 ? `${hours}:` : ""
+        }${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+      };
+
+      video.addEventListener("canplaythrough", (e) => {
+        playBtn.querySelector(".mdi-pause").style.display = "none";
+        convertToTimestamp(video.duration, "totalTime")
+        playBtn.addEventListener("click", (e) => {
+          console.log("Video: ", video.paused);
+          if (video.paused) {
+            video.play();
+            playBtn.querySelector(".mdi-play").style.display = "none";
+            playBtn.querySelector(".mdi-pause").removeAttribute("style");
+            return;
+          }
+          video.pause();
+          playBtn.querySelector(".mdi-play").removeAttribute("style");
+          playBtn.querySelector(".mdi-pause").style.display = "none";
+        });
+      });
+
+      video.addEventListener('timeupdate', (e) => {
+        convertToTimestamp(video.currentTime, "currentTime")
+      })
+    </script>
+  </body>
+</html>
